@@ -10,13 +10,12 @@ def program(tokens):
     global index
 
     tokens_length = len(tokens)
-    if index < tokens_length:
-        if tokens[index][1] == "Single line comment" or tokens[index][1] == "Multiple line comment starts":
-            while tokens[index][1] == "Single line comment" or tokens[index][1] == "Multiple line comment starts":
-                comment(tokens)
+    if tokens[index][1] == "Single line comment" or tokens[index][1] == "Multiple line comment starts":
+        while tokens[index][1] == "Single line comment" or tokens[index][1] == "Multiple line comment starts":
+            comment(tokens)
     
-        if tokens[index][1] == "Program Start Keyword":
-            pass
+    if tokens[index][1] == "Program Start Keyword":
+        pass
 
 def comment(tokens):
     global index
@@ -50,12 +49,12 @@ def comment(tokens):
                     index += 1
                     linebreak(tokens)
 
+                else:
+                    prompt_error()
             else:
-                prompt_error()
+                prompt_error()  
         else:
-            prompt_error()  
-    else:
-        prompt_error()
+            prompt_error()
 
 '''	LINE BREAK:
     <linebreak> ::= \n
