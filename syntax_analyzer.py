@@ -122,8 +122,10 @@ def block_code(tokens, block_code_list):
     while tokens[index][1] != "Program End Keyword":
         block_code(tokens, block_code_list)
 
-    if len(block_code_list):
-        pass
+    if len(block_code_list) > 1:
+        return tuple(block_code_list)
+    else:
+        return block_code_list[0]
 
 
 def block_code_2(tokens):
@@ -161,7 +163,7 @@ def prints(tokens):
            or tokens[index][1] == "YARN"
            or tokens[index][1] == "TROOF"
            or tokens[index][1] == "TYPE literal"
-           or (tokens[index][1] == "AND Operator" and tokens[index-1][1] != "New Line")
+           or ((tokens[index][1] == "AND Operator" and tokens[index-1][1] != "New Line")
            or (tokens[index][1] == "OR Operator" and tokens[index-1][1] != "New Line")
            or (tokens[index][1] == "XOR Operator" and tokens[index-1][1] != "New Line")
            or (tokens[index][1] == "Not Operator" and tokens[index-1][1] != "New Line")
@@ -175,7 +177,7 @@ def prints(tokens):
            or (tokens[index][1] == "Max Operator" and tokens[index-1][1] != "New Line")
            or (tokens[index][1] == "Minimum Operator" and tokens[index-1][1] != "New Line")
            or (tokens[index][1] == "Equal Operator" and tokens[index-1][1] != "New Line")
-           or (tokens[index][1] == "Not Equal Operator" and tokens[index-1][1] != "New Line")):
+           or (tokens[index][1] == "Not Equal Operator" and tokens[index-1][1] != "New Line"))):
         operator1 = inf_print(tokens)
         printsList.append(operator1)
     return printsList[0] if len(printsList) == 1 else tuple(printsList)
