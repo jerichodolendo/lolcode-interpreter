@@ -63,6 +63,7 @@ NUMBR = "^(-?[0-9]+)$"
 NUMBAR = "^(-?[0-9]+\.?[0-9]+)$"
 YARN = "^(\".*\")$"
 TROOF = "^(WIN)$|^(FAIL)$"
+TYPE = "^(NUMBR)$|^(NUMBAR)$|^(YARN)$|^(TROOF)$"
 variable = "^[A-Za-z][A-Za-z0-9_]*$"
 
 new_line = "^(\n)$"

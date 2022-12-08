@@ -2,6 +2,8 @@ import re
 from regex import *
 
 # function that checks if a token has any regex matches
+
+
 def identifier(lexemeTups, tokens):
     global comm_lit, BTW_flag, OBTW_flag
     j = 0
@@ -36,24 +38,6 @@ def identifier(lexemeTups, tokens):
 
             tokens.pop(0)
             return(tokens)
-
-    # elif (OBTW_flag == 1):
-    #     if (tokens[j] == "TLDR"):
-    #         OBTW_flag = 0
-        # elif (tokens[j] == "\n"):
-        #     if (re.search(comment_lit, comm_lit)):
-        #         print(comm_lit, "\t == Comment Literal")
-        #         lexemeTups.append((comm_lit, "Comment Literal"))
-
-        #     comm_lit = ""
-        #     return(tokens)
-        # else:
-        #     comm_lit = comm_lit + tokens[j]
-        #     if (tokens[j+1] != "\n"):
-        #         comm_lit = comm_lit + " "
-
-        #     tokens.pop(0)
-        #     return(tokens)
 
     elif (type(tokens) == str):
         tokens = tokens.strip()
@@ -267,6 +251,10 @@ def identifier(lexemeTups, tokens):
         elif (re.search(TROOF, tokens[j])):
             print(tokens[j], "\t == TROOF")
             lexemeTups.append((tokens[j], "TROOF"))
+
+        elif (re.search(TYPE, tokens[j])):
+            print(tokens[j], "\t == TYPE literal")
+            lexemeTups.append((tokens[j], "TYPE literal"))
 
         elif (re.search(variable, tokens[j])):
             print(tokens[j], "\t == Variable Identifier")
