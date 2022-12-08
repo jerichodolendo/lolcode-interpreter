@@ -155,13 +155,30 @@ def prints(tokens):
     operator = str(operator1) if type(operator1) != tuple else operator1
     printsList.append(operator)
 
-    # while tokens[index][1] == "Variable Identifier"
-    # or tokens[index][1] == "NUMBR"
-    # or tokens[index][1] == "NUMBAR"
-    # or tokens[index][1] == "YARN"
-    # or tokens[index][1] == "TROOF"
-    # or tokens[index][1] == "TYPE literal"
-    # or (tokens[index][1])
+    while (tokens[index][1] == "Variable Identifier"
+           or tokens[index][1] == "NUMBR"
+           or tokens[index][1] == "NUMBAR"
+           or tokens[index][1] == "YARN"
+           or tokens[index][1] == "TROOF"
+           or tokens[index][1] == "TYPE literal"
+           or (tokens[index][1] == "AND Operator" and tokens[index-1][1] != "New Line")
+           or (tokens[index][1] == "OR Operator" and tokens[index-1][1] != "New Line")
+           or (tokens[index][1] == "XOR Operator" and tokens[index-1][1] != "New Line")
+           or (tokens[index][1] == "Not Operator" and tokens[index-1][1] != "New Line")
+           or (tokens[index][1] == "Infinite Arity OR Keyword" and tokens[index-1][1] != "New Line")
+           or (tokens[index][1] == "Infinite Arity AND Keyword" and tokens[index-1][1] != "New Line")
+           or (tokens[index][1] == "Addition Operator" and tokens[index-1][1] != "New Line")
+           or (tokens[index][1] == "Subtraction Operator" and tokens[index-1][1] != "New Line")
+           or (tokens[index][1] == "Multiplication Operator" and tokens[index-1][1] != "New Line")
+           or (tokens[index][1] == "Division Operator" and tokens[index-1][1] != "New Line")
+           or (tokens[index][1] == "Modulo Operator" and tokens[index-1][1] != "New Line")
+           or (tokens[index][1] == "Max Operator" and tokens[index-1][1] != "New Line")
+           or (tokens[index][1] == "Minimum Operator" and tokens[index-1][1] != "New Line")
+           or (tokens[index][1] == "Equal Operator" and tokens[index-1][1] != "New Line")
+           or (tokens[index][1] == "Not Equal Operator" and tokens[index-1][1] != "New Line")):
+        operator1 = inf_print(tokens)
+        printsList.append(operator1)
+    return printsList[0] if len(printsList) == 1 else tuple(printsList)
 
 
 def inf_print(tokens):
@@ -173,9 +190,54 @@ def inf_print(tokens):
         var = tokens[index][0]
         index += 1
         return var
-    # elif
+
+    elif (tokens[index][1] == "AND Operator"
+          or tokens[index][1] == "OR Operator"
+          or tokens[index][1] == "XOR Operator"
+          or tokens[index][1] == "Not Operator"
+          or tokens[index][1] == "Infinite Arity OR Keyword"
+          or tokens[index][1] == "Infinite Arity AND Keyword"
+          or tokens[index][1] == "Addition Operator"
+          or tokens[index][1] == "Subtraction Operator"
+          or tokens[index][1] == "Multiplication Operator"
+          or tokens[index][1] == "Division Operator"
+          or tokens[index][1] == "Modulo Operator"
+          or tokens[index][1] == "Max Operator"
+          or tokens[index][1] == "Minimum Operator"
+          or tokens[index][1] == "Equal Operator"
+          or tokens[index][1] == "Not Equal Operator"):
+        operator1 = expr(tokens)
+        return operator1
+
+    elif (tokens[index][1] == "NUMBR"
+          or tokens[index][1] == "NUMBAR"
+          or tokens[index][1] == "YARN"
+          or tokens[index][1] == "TROOF"
+          or tokens[index][1] == "TYPE literal"):
+        operator1 = literal(tokens)
+        return operator1
+
     else:
         prompt_error()
+
+
+'''	EXPRESSION:
+    <expr> ::= <sumdiff> | <and> | <or> | <xor> | <not> | <inf_and> | <inf_or> |
+<comparison>
+'''
+
+
+def expr(token):
+    pass
+
+
+'''	LITERAL:
+    <literal> ::= numbr | numbar | yarn | troof
+'''
+
+
+def literal(token):
+    pass
 
 # prints an error message
 
