@@ -595,4 +595,4 @@ def bool_exp(tokens):
 
 def prompt_error():
     print("Error!")
-    quit()
+    # quit()
