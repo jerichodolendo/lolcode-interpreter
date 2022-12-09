@@ -6,11 +6,8 @@ index = 0
 '''	PROGRAM:
     <program> ::= <comment> HAI <linebreak> <code_block> <linebreak> KTHXBYE <comment>
 '''
-
-
 def program(tokens):
     global index
-    print(type(tokens[index][1]))
 
     index = 0
 
