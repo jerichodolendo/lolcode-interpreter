@@ -14,6 +14,7 @@ def clear_all():
     for item in lexTbl.get_children():
         lexTbl.delete(item)
 
+
 def execute():
     clear_all()
     tokenList = []  # includes all tokens in input
