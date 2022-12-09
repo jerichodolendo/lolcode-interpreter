@@ -23,8 +23,8 @@ def program(tokens):
         keyword1 = tokens[index][0]
         index += 1
 
-        block_code_list = []
-        operator1 = block_code(tokens, block_code_list)
+        code_block_list = []
+        operator1 = code_block(tokens, code_block_list)
 
         if tokens[index][1] == "Program End Keyword" and tokens[index+1][1] == "New Line":
             print("End of Program: " + tokens[index][0])
@@ -110,38 +110,36 @@ def linebreak(tokens):
         return False
 
 
-'''	CODE BLOCK:
-    <code_block>	::= <code_block2> <code_block>
-    <code_block2>	::= <print> | <declaration> | <comment> | <concat> | <input> |
+'''
+    CODE BLOCK:
+    <code_block>	::= <code_block_2> <code_block>
+    <code_block_2>	::= <print> | <declaration> | <comment> | <concat> | <input> |
                         <exp_it> | <assignment> | <if> | <switch>
 '''
-
-
-def block_code(tokens, block_code_list):
-    operator1 = block_code_2(tokens)
+def code_block(tokens, code_block_list):
+    operator1 = code_block_2(tokens)
 
     if operator1 is not None:
-        block_code_list.append(operator1)
+        code_block_list.append(operator1)
 
     while tokens[index][1] != "Program End Keyword":
-        block_code(tokens, block_code_list)
+        code_block(tokens, code_block_list)
 
-    if len(block_code_list) > 1:
-        return tuple(block_code_list)
+    if len(code_block_list) > 1:
+        return tuple(code_block_list)
     else:
-        return block_code_list[0]
+        return code_block_list[0]
 
 
-def block_code_2(tokens):
+def code_block_2(tokens):
     global index
-    print("Entered block_code " + tokens[index][0])
+    print("Entered code_block " + tokens[index][0])
 
     if tokens[index][1] == "Output/Printing Keyword":
         keyword1 = tokens[index][0]
         index += 1
         operator1 = prints(tokens)
         return keyword1, operator1
-
     elif tokens[index][1] == "Variable Declaration":
         keyword1 = tokens[index][0]
         index += 1
@@ -206,25 +204,232 @@ def block_code_2(tokens):
         print(tokens[index][0], tokens[index][1])
         prompt_error()
 
+def case(tokens):
+    global index
 
+    if tokens[index][1] == "Case Condition Keyword":
+        print("Entered code block: " + tokens[index][0])
+        keyword1 = tokens[index][0]
+        index += 1
+
+        if (tokens[index][1] == "NUMBR"
+            or tokens[index][1] == "NUMBAR"
+            or tokens[index][1] == "YARN"
+            or tokens[index][1] == "TROOF"
+            or tokens[index][1] == "NUMBR"
+            or tokens[index][1] == "TYPE Literal"):
+
+            print("Entered literal: " + tokens[index][0])
+
+            literal = tokens[index][0]
+            index += 1
+            statements = code_block_4(tokens)
+
+            lines = [keyword1, literal, (statements)]
+
+            if tokens[index][1] == "Break Keyword":
+                brk = tokens[index][0]
+                print("Entered break")
+                index += 1
+                lines.append(brk)
+
+            operator2 = case(tokens)
+
+            if operator2 is not None:
+                lines.append(operator2)
+            return tuple(lines)
+
+        else:
+            prompt_error()
+    elif tokens[index][1] == "Default Condition Keyword":
+        pass
+    else:
+        prompt_error()
+
+'''	SWITCH CASE	
+    <switch> ::= <exp_it> WTF? <case> OMGWTF? <code_block> OIC
+    <case> ::= OMG <literal> |
+            OMG <literal> <case>
+'''
 def switch(tokens):
-    pass
+    global index
 
+    operator1 = case(tokens)
+
+    if tokens[index][1] == "Default Condition Keyword":
+        default_statement = tokens[index][0]
+        index += 1
+
+        statements = code_block_4(tokens)
+
+        if tokens[index][1] == "If End Keyword":
+            keyword_end = tokens[index][0]
+            index += 1
+
+            print("Entered end of SWITCH/CASE")
+
+            return (operator1), (default_statement, (statements)), (keyword_end)
+        else:
+            prompt_error()
+    else:
+        prompt_error()
+
+def code_block_4(tokens):
+    global index
+
+    code_block_list = []
+
+    while (tokens[index][1] != "Else Condition Keyword"
+        and tokens[index][1] != "Elif Condition Keyword"
+        and tokens[index][1] != "If End Keyword"):
+
+        if tokens[index][1] == "New Line":
+            index += 1
+            continue
+
+        code_block_list.append(code_block_3(tokens))
+
+    return tuple(code_block_list)
 
 def assignment(tokens):
-    pass
+    global index
 
+    if tokens[index][1] == "Variable Identifier":
+        varident = tokens[index][0]
+        print("Entered Variable Identifier: " + tokens[index][0])
+        index += 1
 
+        if tokens[index][1] == "Assignment Operator Keyword":
+            keyword_assign = tokens[index][0]
+            print("Entered Assignment Operator: " + tokens[index][0])
+            index += 1
+
+            if ((tokens[index][1] == "AND Operator" and tokens[index-1][1] != "New Line")
+              or (tokens[index][1] == "OR Operator" and tokens[index-1][1] != "New Line")
+              or (tokens[index][1] == "XOR Operator" and tokens[index-1][1] != "New Line")
+              or (tokens[index][1] == "Not Operator" and tokens[index-1][1] != "New Line")
+              or (tokens[index][1] == "Infinite Arity OR Keyword" and tokens[index-1][1] != "New Line")
+              or (tokens[index][1] == "Infinite Arity AND Keyword" and tokens[index-1][1] != "New Line")
+              or (tokens[index][1] == "Addition Operator" and tokens[index-1][1] != "New Line")
+              or (tokens[index][1] == "Subtraction Operator" and tokens[index-1][1] != "New Line")
+              or (tokens[index][1] == "Multiplication Operator" and tokens[index-1][1] != "New Line")
+              or (tokens[index][1] == "Division Operator" and tokens[index-1][1] != "New Line")
+              or (tokens[index][1] == "Modulo Operator" and tokens[index-1][1] != "New Line")
+              or (tokens[index][1] == "Max Operator" and tokens[index-1][1] != "New Line")
+              or (tokens[index][1] == "Minimum Operator" and tokens[index-1][1] != "New Line")
+              or (tokens[index][1] == "Equal Operator" and tokens[index-1][1] != "New Line")
+              or (tokens[index][1] == "Not Equal Operator" and tokens[index-1][1] != "New Line")):
+
+                ex = expr(tokens)
+
+                return keyword_assign, (varident, ex)
+
+            elif tokens[index][1] == "Variable Identifier":
+                varident2 = tokens[index][0]
+                print("Entered Variable Identifier: " + tokens[index][0])
+                index += 1
+
+                return keyword_assign, (varident, varident2)
+
+            elif (tokens[index][1] == tokens[index][1] == "NUMBR"
+                or tokens[index][1] == "NUMBAR"
+                or tokens[index][1] == "YARN"
+                or tokens[index][1] == "TROOF"
+                or tokens[index][1] == "NUMBR"
+                or tokens[index][1] == "TYPE Literal"):
+
+                lit = literal(tokens)
+                
+                return keyword_assign, (varident, lit)
+            else:
+                prompt_error()
+        else:
+            prompt_error()
+    else:
+        prompt_error()
+
+''' IF ELSE
+    <if> ::= <exp_it> O RLY? <line_break> YA RLY <code_block> <else_if> OIC
+    <else_if> ::= MEBBE <expr> <code_block> <else_if> |
+                NO WAI <code_block>
+'''
 def if_(tokens):
-    pass
+    global index
+
+    if tokens[index][1] == "If Condition Keyword":
+        keyword1 = tokens[index][0]
+        index += 1
+
+        statements = code_block_3(tokens)
+        keyword2 = else_if(tokens)
+
+        if keyword2 == None:
+            prompt_error()
+
+        if tokens[index][1] == "If End Keyword":
+            keyword3 = tokens[index][0]
+            index += 1
+            print("Entered If/If-else statement")
+
+            return(keyword1,(statements)),keyword2,(keyword3)
+        else:
+            prompt_error()
 
 
 def else_if(tokens):
-    pass
+    global index
+
+    if tokens[index][1] == "Elif Condition Keyword":
+        keyword1 = tokens[index][0]
+        print("Entered code block " + tokens[index][0])
+
+        index += 1
+
+        if (tokens[index][1] == "AND Operator"
+        or tokens[index][1] == "OR Operator"
+        or tokens[index][1] == "XOR Operator"
+        or tokens[index][1] == "Not Operator"
+        or tokens[index][1] == "TROOF"
+        or tokens[index][1] == "Variable Identifier"):
+            condition = expr(tokens)
+
+        statements = code_block_3(tokens)
+        keyword2 = else_if(tokens)
+
+        if keyword2 != None:
+            return keyword1, condition, (statements), keyword2
+        else:
+            return keyword1, condition, (statements)
+
+    elif tokens[index][1] == "Else Condition Keyword":
+        keyword1 = tokens[index][0]
+        print("Entered code block " + tokens[index][0])
+        index += 1
+        
+        statements = code_block_3(tokens)
+        return keyword1, (statements)
+
+    elif tokens[index][1] == "If End Keyword":
+        pass
+    else:
+        prompt_error()
 
 
-def code_block3(token):
-    pass
+def code_block_3(tokens):
+    global index
+
+    code_block_list = []
+    while (tokens[index][1] != "Else Condition Keyword"
+        and tokens[index][1] != "Elif Condition Keyword"
+        and tokens[index][1] != "If End Keyword"):
+
+        if tokens[index][1] == "New Line":
+            index += 1
+            continue
+
+        code_block_list.append(code_block_2(tokens))
+
+    return tuple(code_block_list)
 
 
 def input_(tokens):
@@ -245,36 +450,36 @@ def concat(tokens):
     return operator1
 
 
-def strconcat(token):
+def strconcat(tokens):
     global index
 
-    op1 = func_str(token)
-    if token[index][1] == "Operand Separator Keyword":
-        print("Entered operator separator " + token[index][0])
-        kw1 = token[index][0]
+    op1 = func_str(tokens)
+    if tokens[index][1] == "Operand Separator Keyword":
+        print("Entered operator separator " + tokens[index][0])
+        kw1 = tokens[index][0]
         index += 1
-        op2 = strconcat(token)
+        op2 = strconcat(tokens)
         return op1, kw1, op2
     else:
-        if token[index-2][1] == "Operand Separator Keyword":
+        if tokens[index-2][1] == "Operand Separator Keyword":
             return op1
         else:
             prompt_error()
 
 
-def func_str(token):
+def func_str(tokens):
     global index
 
-    if token[index][1] == "YARN":
-        print("Entered literal " + token[index][0])
-        operator1 = token[index][0].strip('"')
+    if tokens[index][1] == "YARN":
+        print("Entered literal " + tokens[index][0])
+        operator1 = tokens[index][0].strip('"')
 
-    elif token[index][1] == "Variable Identifier":
-        print("Entered variable identifier " + token[index][0])
-        operator1 = token[index][0]
+    elif tokens[index][1] == "Variable Identifier":
+        print("Entered variable identifier " + tokens[index][0])
+        operator1 = tokens[index][0]
 
     else:
-        operator1 = str(token[index][0])
+        operator1 = str(tokens[index][0])
 
     index += 1
     return operator1
@@ -344,8 +549,6 @@ def declarations(tokens):
     <print> ::= <inf_print> <print>
     <inf_print> ::= varident | <expr> | <literal>
 '''
-
-
 def prints(tokens):
     global index
     print("Entered prints " + tokens[index][0])
@@ -421,12 +624,11 @@ def inf_print(tokens):
         prompt_error()
 
 
-'''	EXPRESSION:
+'''
+EXPRESSION:
     <expr> ::= <sumdiff> | <and> | <or> | <xor> | <not> | <inf_and> | <inf_or> |
 <comparison>
 '''
-
-
 def expr(tokens):
     global index
     print("Entered expr " + tokens[index][1])
@@ -484,8 +686,6 @@ def value(tokens):
 '''	LITERAL:
     <literal> ::= numbr | numbar | yarn | troof
 '''
-
-
 def literal(tokens):
     global index
     if tokens[index][1] == "NUMBR":
@@ -503,7 +703,6 @@ def literal(tokens):
     literal = tokens[index][0]
     index += 1
     return literal
-
 
 def sumdiff(tokens):
     global index
@@ -555,7 +754,6 @@ def and_(tokens):
 
             else:
                 prompt_error()
-
         else:
             prompt_error()
     else:

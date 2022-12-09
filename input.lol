@@ -1,6 +1,9 @@
-BTW comment to
+BTW for USER INPUT/OUTPUT
+HAI
 
-OBTW
-comment block
-lolololol
-TLDR
+  BTW printing of literals
+  VISIBLE "henlo"
+  VISIBLE 17
+  VISIBLE 1.7
+  VISIBLE WIN
+KTHXBYE
