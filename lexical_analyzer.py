@@ -241,12 +241,12 @@ def identifier(lexemeTups, tokens):
             lexemeTups.append((tokens[j], "NUMBAR"))
 
         elif (re.search(YARN, tokens[j])):
-            print(tokens[j], "\t == YARN")
+            print(tokens[j], "\t == YARN literal")
             strLtrl = tokens[j][1:-1]
-            lexemeTups.append((tokens[j], "YARN"))
-            lexemeTups.append(("\"", "String Delimiter"))
-            lexemeTups.append((strLtrl, "String Literal"))
-            lexemeTups.append(("\"", "String Delimiter"))
+            lexemeTups.append((tokens[j], "YARN literal"))
+            # lexemeTups.append(("\"", "String Delimiter"))
+            # lexemeTups.append((strLtrl, "String Literal"))
+            # lexemeTups.append(("\"", "String Delimiter"))
 
         elif (re.search(TROOF, tokens[j])):
             print(tokens[j], "\t == TROOF")

@@ -6,6 +6,8 @@ index = 0
 '''	PROGRAM:
     <program> ::= <comment> HAI <linebreak> <code_block> <linebreak> KTHXBYE <comment>
 '''
+
+
 def program(tokens):
     global index
 
@@ -113,6 +115,8 @@ def linebreak(tokens):
     <code_block_2>	::= <print> | <declaration> | <comment> | <concat> | <input> |
                         <exp_it> | <assignment> | <if> | <switch>
 '''
+
+
 def code_block(tokens, code_block_list):
     operator1 = code_block_2(tokens)
 
@@ -173,7 +177,7 @@ def code_block_2(tokens):
     elif (tokens[index][1] == "Variable Identifier"
           or tokens[index][1] == "NUMBR"
           or tokens[index][1] == "NUMBAR"
-          or tokens[index][1] == "YARN"
+          or tokens[index][1] == "YARN literal"
           or tokens[index][1] == "TROOF"
           or tokens[index][1] == "TYPE literal"
           or ((tokens[index][1] == "AND Operator" and tokens[index-1][1] != "New Line")
@@ -201,6 +205,7 @@ def code_block_2(tokens):
         print(tokens[index][0], tokens[index][1])
         prompt_error()
 
+
 def case(tokens):
     global index
 
@@ -211,10 +216,10 @@ def case(tokens):
 
         if (tokens[index][1] == "NUMBR"
             or tokens[index][1] == "NUMBAR"
-            or tokens[index][1] == "YARN"
+            or tokens[index][1] == "YARN literal"
             or tokens[index][1] == "TROOF"
             or tokens[index][1] == "NUMBR"
-            or tokens[index][1] == "TYPE Literal"):
+                or tokens[index][1] == "TYPE Literal"):
 
             print("Entered literal: " + tokens[index][0])
 
@@ -243,11 +248,14 @@ def case(tokens):
     else:
         prompt_error()
 
+
 '''	SWITCH CASE	
     <switch> ::= <exp_it> WTF? <case> OMGWTF? <code_block> OIC
     <case> ::= OMG <literal> |
             OMG <literal> <case>
 '''
+
+
 def switch(tokens):
     global index
 
@@ -271,14 +279,15 @@ def switch(tokens):
     else:
         prompt_error()
 
+
 def code_block_4(tokens):
     global index
 
     code_block_list = []
 
     while (tokens[index][1] != "Else Condition Keyword"
-        and tokens[index][1] != "Elif Condition Keyword"
-        and tokens[index][1] != "If End Keyword"):
+           and tokens[index][1] != "Elif Condition Keyword"
+           and tokens[index][1] != "If End Keyword"):
 
         if tokens[index][1] == "New Line":
             index += 1
@@ -287,6 +296,7 @@ def code_block_4(tokens):
         code_block_list.append(code_block_3(tokens))
 
     return tuple(code_block_list)
+
 
 def assignment(tokens):
     global index
@@ -302,20 +312,20 @@ def assignment(tokens):
             index += 1
 
             if ((tokens[index][1] == "AND Operator" and tokens[index-1][1] != "New Line")
-              or (tokens[index][1] == "OR Operator" and tokens[index-1][1] != "New Line")
-              or (tokens[index][1] == "XOR Operator" and tokens[index-1][1] != "New Line")
-              or (tokens[index][1] == "Not Operator" and tokens[index-1][1] != "New Line")
-              or (tokens[index][1] == "Infinite Arity OR Keyword" and tokens[index-1][1] != "New Line")
-              or (tokens[index][1] == "Infinite Arity AND Keyword" and tokens[index-1][1] != "New Line")
-              or (tokens[index][1] == "Addition Operator" and tokens[index-1][1] != "New Line")
-              or (tokens[index][1] == "Subtraction Operator" and tokens[index-1][1] != "New Line")
-              or (tokens[index][1] == "Multiplication Operator" and tokens[index-1][1] != "New Line")
-              or (tokens[index][1] == "Division Operator" and tokens[index-1][1] != "New Line")
-              or (tokens[index][1] == "Modulo Operator" and tokens[index-1][1] != "New Line")
-              or (tokens[index][1] == "Max Operator" and tokens[index-1][1] != "New Line")
-              or (tokens[index][1] == "Minimum Operator" and tokens[index-1][1] != "New Line")
-              or (tokens[index][1] == "Equal Operator" and tokens[index-1][1] != "New Line")
-              or (tokens[index][1] == "Not Equal Operator" and tokens[index-1][1] != "New Line")):
+                or (tokens[index][1] == "OR Operator" and tokens[index-1][1] != "New Line")
+                or (tokens[index][1] == "XOR Operator" and tokens[index-1][1] != "New Line")
+                or (tokens[index][1] == "Not Operator" and tokens[index-1][1] != "New Line")
+                or (tokens[index][1] == "Infinite Arity OR Keyword" and tokens[index-1][1] != "New Line")
+                or (tokens[index][1] == "Infinite Arity AND Keyword" and tokens[index-1][1] != "New Line")
+                or (tokens[index][1] == "Addition Operator" and tokens[index-1][1] != "New Line")
+                or (tokens[index][1] == "Subtraction Operator" and tokens[index-1][1] != "New Line")
+                or (tokens[index][1] == "Multiplication Operator" and tokens[index-1][1] != "New Line")
+                or (tokens[index][1] == "Division Operator" and tokens[index-1][1] != "New Line")
+                or (tokens[index][1] == "Modulo Operator" and tokens[index-1][1] != "New Line")
+                or (tokens[index][1] == "Max Operator" and tokens[index-1][1] != "New Line")
+                or (tokens[index][1] == "Minimum Operator" and tokens[index-1][1] != "New Line")
+                or (tokens[index][1] == "Equal Operator" and tokens[index-1][1] != "New Line")
+                    or (tokens[index][1] == "Not Equal Operator" and tokens[index-1][1] != "New Line")):
 
                 ex = expr(tokens)
 
@@ -329,14 +339,14 @@ def assignment(tokens):
                 return keyword_assign, (varident, varident2)
 
             elif (tokens[index][1] == tokens[index][1] == "NUMBR"
-                or tokens[index][1] == "NUMBAR"
-                or tokens[index][1] == "YARN"
-                or tokens[index][1] == "TROOF"
-                or tokens[index][1] == "NUMBR"
-                or tokens[index][1] == "TYPE Literal"):
+                  or tokens[index][1] == "NUMBAR"
+                  or tokens[index][1] == "YARN literal"
+                  or tokens[index][1] == "TROOF"
+                  or tokens[index][1] == "NUMBR"
+                  or tokens[index][1] == "TYPE Literal"):
 
                 lit = literal(tokens)
-                
+
                 return keyword_assign, (varident, lit)
             else:
                 prompt_error()
@@ -345,11 +355,14 @@ def assignment(tokens):
     else:
         prompt_error()
 
+
 ''' IF ELSE
     <if> ::= <exp_it> O RLY? <line_break> YA RLY <code_block> <else_if> OIC
     <else_if> ::= MEBBE <expr> <code_block> <else_if> |
                 NO WAI <code_block>
 '''
+
+
 def if_(tokens):
     global index
 
@@ -368,7 +381,7 @@ def if_(tokens):
             index += 1
             print("Entered If/If-else statement")
 
-            return(keyword1,(statements)),keyword2,(keyword3)
+            return(keyword1, (statements)), keyword2, (keyword3)
         else:
             prompt_error()
 
@@ -383,11 +396,11 @@ def else_if(tokens):
         index += 1
 
         if (tokens[index][1] == "AND Operator"
-        or tokens[index][1] == "OR Operator"
-        or tokens[index][1] == "XOR Operator"
-        or tokens[index][1] == "Not Operator"
-        or tokens[index][1] == "TROOF"
-        or tokens[index][1] == "Variable Identifier"):
+            or tokens[index][1] == "OR Operator"
+            or tokens[index][1] == "XOR Operator"
+            or tokens[index][1] == "Not Operator"
+            or tokens[index][1] == "TROOF"
+                or tokens[index][1] == "Variable Identifier"):
             condition = expr(tokens)
 
         statements = code_block_3(tokens)
@@ -402,7 +415,7 @@ def else_if(tokens):
         keyword1 = tokens[index][0]
         print("Entered code block " + tokens[index][0])
         index += 1
-        
+
         statements = code_block_3(tokens)
         return keyword1, (statements)
 
@@ -417,8 +430,8 @@ def code_block_3(tokens):
 
     code_block_list = []
     while (tokens[index][1] != "Else Condition Keyword"
-        and tokens[index][1] != "Elif Condition Keyword"
-        and tokens[index][1] != "If End Keyword"):
+           and tokens[index][1] != "Elif Condition Keyword"
+           and tokens[index][1] != "If End Keyword"):
 
         if tokens[index][1] == "New Line":
             index += 1
@@ -467,7 +480,7 @@ def strconcat(tokens):
 def func_str(tokens):
     global index
 
-    if tokens[index][1] == "YARN":
+    if tokens[index][1] == "YARN literal":
         print("Entered literal " + tokens[index][0])
         operator1 = tokens[index][0].strip('"')
 
@@ -499,7 +512,7 @@ def declarations(tokens):
 
             if (tokens[index][1] == "NUMBR"
                 or tokens[index][1] == "NUMBAR"
-                or tokens[index][1] == "YARN"
+                or tokens[index][1] == "YARN literal"
                 or tokens[index][1] == "TROOF"
                 or tokens[index][1] == "NUMBR"
                     or tokens[index][1] == "TYPE Literal"):
@@ -514,7 +527,7 @@ def declarations(tokens):
             elif (tokens[index][1] == "Variable Identifier"
                   or tokens[index][1] == "NUMBR"
                   or tokens[index][1] == "NUMBAR"
-                  or tokens[index][1] == "YARN"
+                  or tokens[index][1] == "YARN literal"
                   or tokens[index][1] == "TROOF"
                   or tokens[index][1] == "TYPE literal"
                   or ((tokens[index][1] == "AND Operator" and tokens[index-1][1] != "New Line")
@@ -546,6 +559,8 @@ def declarations(tokens):
     <print> ::= <inf_print> <print>
     <inf_print> ::= varident | <expr> | <literal>
 '''
+
+
 def prints(tokens):
     global index
     print("Entered prints " + tokens[index][0])
@@ -558,7 +573,7 @@ def prints(tokens):
     while (tokens[index][1] == "Variable Identifier"
            or tokens[index][1] == "NUMBR"
            or tokens[index][1] == "NUMBAR"
-           or tokens[index][1] == "YARN"
+           or tokens[index][1] == "YARN literal"
            or tokens[index][1] == "TROOF"
            or tokens[index][1] == "TYPE literal"
            or ((tokens[index][1] == "AND Operator" and tokens[index-1][1] != "New Line")
@@ -611,7 +626,7 @@ def inf_print(tokens):
 
     elif (tokens[index][1] == "NUMBR"
           or tokens[index][1] == "NUMBAR"
-          or tokens[index][1] == "YARN"
+          or tokens[index][1] == "YARN literal"
           or tokens[index][1] == "TROOF"
           or tokens[index][1] == "TYPE literal"):
         operator1 = literal(tokens)
@@ -626,6 +641,8 @@ EXPRESSION:
     <expr> ::= <sumdiff> | <and> | <or> | <xor> | <not> | <inf_and> | <inf_or> |
 <comparison>
 '''
+
+
 def expr(tokens):
     global index
     print("Entered expr " + tokens[index][1])
@@ -681,15 +698,17 @@ def value(tokens):
 
 
 '''	LITERAL:
-    <literal> ::= numbr | numbar | yarn | troof
+    <literal> ::= numbr | numbar | YARN literal | troof
 '''
+
+
 def literal(tokens):
     global index
     if tokens[index][1] == "NUMBR":
         print("Entered int literal " + tokens[index][0])
     elif tokens[index][1] == "NUMBAR":
         print("Entered float literal " + tokens[index][0])
-    elif tokens[index][1] == "YARN":
+    elif tokens[index][1] == "YARN literal":
         print("Entered string literal " + tokens[index][0])
     elif tokens[index][1] == "TROOF":
         print("Entered boolean literal " + tokens[index][0])
@@ -700,6 +719,7 @@ def literal(tokens):
     literal = tokens[index][0]
     index += 1
     return literal
+
 
 def sumdiff(tokens):
     global index

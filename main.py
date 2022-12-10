@@ -20,7 +20,7 @@ def execute():
     tokenList = []  # includes all tokens in input
     lexemeTups = []  # contains tuples of lexemes with their classifications, for inserting to lexeme table
     code = text.get("1.0", "end-1c")    # get input from text box
-    lineRgx = r"\"?\b.+\b\??\"?\n?"  # regex for getting line
+    lineRgx = r"\"?.+\??\"?\n?"  # regex for getting line
     result = re.findall(lineRgx, code)  # returns list containing lines
 
     for line in result:
