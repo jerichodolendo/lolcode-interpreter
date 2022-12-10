@@ -45,6 +45,7 @@ def program(tokens):
         prompt_error()
 
 
+
 def comment(tokens):
     global index
 
@@ -148,7 +149,7 @@ def code_block_2(tokens):
         return keyword1, (operator1)
     elif tokens[index][1] == "Single line comment" or tokens[index][1] == "Multiple line comment starts":
         comment(tokens)
-    elif tokens[index][1] == "String Concatenator Keyword":
+    elif tokens[index][1] == "Keyword Operand Separator" or tokens[index][1] == "Operand Separator Keyword":
         keyword1 = tokens[index][0]
         index += 1
         operator1 = concat(tokens)
@@ -158,7 +159,7 @@ def code_block_2(tokens):
         index += 1
         operator1 = input_(tokens)
         return keyword1, operator1
-    elif tokens[index][1] == "":
+    elif tokens[index][1] == "If End Keyword":
         keyword1 = tokens[index][0]
         index += 1
         operator1 = if_(tokens)
@@ -647,7 +648,7 @@ def expr(tokens):
     global index
     print("Entered expr " + tokens[index][1])
 
-    if tokens[index][1] == "Addition Operator" or tokens[index][1] == "Subtraction Operator" or tokens[index][1] == "Multiplication Operator" or tokens[index][1] == "Division Operator":
+    if tokens[index][1] == "Addition Operator" or tokens[index][1] == "Subtraction Operator" or tokens[index][1] == "Multiplication Operator" or tokens[index][1] == "Division Operator" or tokens[index][1] == "Modulo Operator":
         return sumdiff(tokens)
 
     elif tokens[index][1] == "AND Operator":
@@ -655,34 +656,213 @@ def expr(tokens):
         index += 1
         operator1 = and_(tokens)
         return keyword1, operator1
+    elif tokens[index][1] == "OR Operator":
+        kw1 = tokens[index][0]
+        index+=1
+        op1 = or_(tokens)
+        return kw1, (op1)
 
-    elif tokens[index][1] == "Division Operator":
-        index += 1
-        operator1 = sumdiff(tokens)
+    elif tokens[index][1] == "XOR Operator":
+        kw1 = tokens[index][0]
+        index+=1
+        op1 = xor(tokens)
+        return kw1, (op1)
+
+    elif tokens[index][1] == "Not Equal Operator":
+        kw1 = tokens[index][0]
+        index+=1
+        op1 = not_(tokens)
+        return kw1, (op1)
+
+    elif tokens[index][1] == "Infinite Arity AND Keyword":
+        kw1 = tokens[index][0]
+        index+=1
+        op1 = inf_and(tokens)
+        return kw1, (op1)
+
+    elif tokens[index][1] == "Infinite Arity OR Keyword":
+        kw1 = tokens[index][0]
+        index+=1
+        op1 = inf_or(tokens)
+        return kw1, (op1)
+
+    elif tokens[index][1] == "Equal Operator" or  tokens[index][1] == "Not Equal Operator":
+        op = comparison(tokens)
+        return op
+    index+=1
+
+def not_(tokens):
+    global index
+    print("Entered not_ " + tokens[index][0])
+    if (tokens[index][1] == "AND Operator"
+            or tokens[index][1] == "OR Operator"
+            or tokens[index][1] == "XOR Operator"
+            or tokens[index][1] == "Not Operator"
+            or tokens[index][1] == "TROOF"
+             or tokens[index][1] == "Variable Identifier"):
+        op1 = bool_exp(tokens)
+        return op1
+    else:
+        prompt_error()
+
+
+def or_(tokens):
+    global index
+    print("Entered or_ " + tokens[index][0])
+    if (tokens[index][1] == "AND Operator"
+            or tokens[index][1] == "OR Operator"
+            or tokens[index][1] == "XOR Operator"
+            or tokens[index][1] == "Not Operator"
+            or tokens[index][1] == "TROOF"
+             or tokens[index][1] == "Variable Identifier"):
+        op1 = bool_exp(tokens)
 
         if tokens[index][1] == "Operand Separator Keyword":
-            index += 1
-            operator2 = sumdiff(tokens)
+            kw1 = tokens[index][0]
+            index+=1
 
-            return 'QUOSHUNT OF', (operator1, 'AN', operator2)
-        else:
-            prompt_error()
-    elif tokens[index][1] == "Modulo Operator":
-        index += 1
-        operator1 = sumdiff(tokens)
-
-        if tokens[index][1] == "Operand Separator Keyword":
-            index += 1
-            operator2 = sumdiff(tokens)
-
-            return 'MOD OF', (operator1, 'AN', operator2)
+            if tokens[index][1] == (tokens[index][1] == "AND Operator"
+                    or tokens[index][1] == "OR Operator"
+                    or tokens[index][1] == "XOR Operator"
+                    or tokens[index][1] == "Not Operator"
+                    or tokens[index][1] == "TROOF"
+                    or tokens[index][1] == "Variable Identifier"):
+                op2 = bool_exp(tokens)
+                return op1, kw1, op2      
+            else:
+                prompt_error()
         else:
             prompt_error()
     else:
-        op = value(tokens)
-        index += 1
-        return op
+        prompt_error()
 
+def xor(tokens):
+    global index
+    print("Entered xor " + tokens[index][1])
+
+    if (tokens[index][1] == "AND Operator"
+            or tokens[index][1] == "OR Operator"
+            or tokens[index][1] == "XOR Operator"
+            or tokens[index][1] == "Not Operator"
+            or tokens[index][1] == "TROOF"
+             or tokens[index][1] == "Variable Identifier"):
+        op1 = bool_exp(tokens)
+
+        if tokens[index][1] == "Operand Separator Keyword":
+            kw1 = tokens[index][0]
+            index+=1
+
+            if tokens[index][1] in (tokens[index][1] == "AND Operator"
+                    or tokens[index][1] == "OR Operator"
+                    or tokens[index][1] == "XOR Operator"
+                    or tokens[index][1] == "Not Operator"
+                    or tokens[index][1] == "TROOF"
+                    or tokens[index][1] == "Variable Identifier"):
+                op2 = bool_exp(tokens)
+                return op1, kw1, op2      
+            else:
+                prompt_error()
+        else:
+            prompt_error()
+    else:
+        prompt_error()
+
+def inf_and(tokens):
+    global index
+    
+    if tokens[index][1] in (tokens[index][1] == "AND Operator"
+    or tokens[index][1] == "OR Operator"
+    or tokens[index][1] == "XOR Operator"
+    or tokens[index][1] == "Not Operator"
+    or tokens[index][1] == "TROOF"
+    or tokens[index][1] == "Variable Identifier"):
+        op1 = bool_exp(tokens)
+        if tokens[index][1] == "Operator Separator Keyword":
+            kw_sep = tokens[index][0]
+            print("Entered operator separtor " + tokens[index][0])
+            index+=1
+            op2 = inf_and(tokens)
+            return op1, kw_sep, op2
+        else:
+            return op1
+    else:
+        prompt_error()
+
+def inf_or(tokens):
+    global index
+    
+    if tokens[index][1] in (tokens[index][1] == "AND Operator"
+    or tokens[index][1] == "OR Operator"
+    or tokens[index][1] == "XOR Operator"
+    or tokens[index][1] == "Not Operator"
+    or tokens[index][1] == "TROOF"
+    or tokens[index][1] == "Variable Identifier"):
+        op1 = bool_exp(tokens)
+        if tokens[index][1] == "Operator Separator Keyword":
+            kw_sep = tokens[index][0]
+            print("Entered operator separtor " + tokens[index][0])
+            index+=1
+            op2 = inf_or(tokens)
+            return op1, kw_sep, op2
+        else:
+            return op1
+    else:
+        prompt_error()
+
+def comparison(tokens):
+    global index
+
+    if tokens[index][1] == "Equal Operator" or tokens[index][1] == " Not Equal Operator":
+        kw1 = tokens[index][0]
+        print("Entered comparison " + tokens[index][0])
+        index+=1
+        op1 = comparison(tokens)
+        if tokens[index][1]== "Operand Separator Keyword":
+            sep = tokens[index][0]
+            print("Entered operator separator " + tokens[index][0])
+            index+=1
+            op2 = comparison(tokens)
+            return kw1, (op1, sep, op2)
+    else:
+        return comparison2(tokens)
+
+def comparison2(tokens):
+    global index
+
+    if tokens[index][1] == "Max Operator" or tokens[index][1] == "Minimum Operator":
+        kw1 = tokens[index][0]
+        print("Entered comparison " + tokens[index][0])
+        i+=1
+        op1 = comparison2(tokens)
+        if tokens[index][1]== "Operand Separator Keyword":
+            sep =  tokens[index][0]
+            print("Entered operator separator " + tokens[index][0])
+            index +=1
+            op2 = comparison2(tokens)
+            return kw1, (op1, sep, op2)
+
+    else:
+        return comp_op(tokens)
+
+def comp_op(tokens):
+    global index
+
+    ret = None
+    if tokens[index][1] == "Variable Identifier":
+        ret = tokens[index][0]
+        print("Entered variable identifier " + tokens[index][0])
+        index+=1
+    elif tokens[index][1] == "NUMBR":	## Numbr
+        ret = tokens[index][0]
+        print("Entered numbr literal " + tokens[index][0])
+        index+=1
+    elif tokens[index][1] == "NUMBAR": ## numbar.
+        ret = tokens[index][0]
+        print("Entered numbar literal " + tokens[index][0])
+        index+=1
+    else:
+        prompt_error()
+    return ret
 
 def value(tokens):
     global index
@@ -790,6 +970,34 @@ def multdiv(tokens):
             return 'PRODUKT OF', (operator1, 'AN', operator2)
         else:
             prompt_error()
+    elif tokens[index][1] == "Division Operator":
+        index += 1
+        op1 = sumdiff(tokens)
+
+        if tokens[index][1] == "Operand Separator Keyword":
+            index+=1
+            op2 = sumdiff(tokens)
+
+            return 'QUOSHUNT OF', (op1, 'AN', op2)
+        else:
+            prompt_error()
+
+    elif tokens[index][1] == "Modulo Operator":
+        index += 1
+        op1 = sumdiff(tokens)
+
+        if tokens[index][1] == "Operand Separator Keyword":
+            index+=1
+            op2 = sumdiff(tokens)
+
+            return 'MOD OF', (op1, 'AN', op2)
+        else:
+            prompt_error()
+        
+    else:
+        op = value(tokens)
+        index+=1
+        return op
 
 
 def bool_exp(tokens):
