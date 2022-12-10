@@ -38,7 +38,7 @@ typecast_assign = "^(A)$"
 recast = "^(IS NOW A)$"
 
 printing = "^(VISIBLE)$"
-inputting = "^(GIMME)$"
+inputting = "^(GIMMEH)$"
 
 if_start = "^(O RLY\?)$"
 if_cond = "^(YA RLY)$"

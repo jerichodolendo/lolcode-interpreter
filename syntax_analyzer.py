@@ -6,8 +6,6 @@ index = 0
 '''	PROGRAM:
     <program> ::= <comment> HAI <linebreak> <code_block> <linebreak> KTHXBYE <comment>
 '''
-
-
 def program(tokens):
     global index
 
@@ -43,6 +41,7 @@ def program(tokens):
             prompt_error()
     else:
         prompt_error()
+
 
 
 
@@ -149,7 +148,7 @@ def code_block_2(tokens):
         return keyword1, (operator1)
     elif tokens[index][1] == "Single line comment" or tokens[index][1] == "Multiple line comment starts":
         comment(tokens)
-    elif tokens[index][1] == "Keyword Operand Separator" or tokens[index][1] == "Operand Separator Keyword":
+    elif tokens[index][1] == "Keyword Operand Separator":
         keyword1 = tokens[index][0]
         index += 1
         operator1 = concat(tokens)
@@ -447,7 +446,7 @@ def input_(tokens):
     global index
     if tokens[index][1] == "Variable Identifier":
         print("Entered variable identifier " + tokens[index][0])
-        var = tokens[index][1]
+        var = tokens[index][0]
     else:
         prompt_error()
     index += 1
@@ -668,7 +667,7 @@ def expr(tokens):
         op1 = xor(tokens)
         return kw1, (op1)
 
-    elif tokens[index][1] == "Not Equal Operator":
+    elif tokens[index][1] == "Not Operator":
         kw1 = tokens[index][0]
         index+=1
         op1 = not_(tokens)
@@ -714,14 +713,14 @@ def or_(tokens):
             or tokens[index][1] == "XOR Operator"
             or tokens[index][1] == "Not Operator"
             or tokens[index][1] == "TROOF"
-             or tokens[index][1] == "Variable Identifier"):
+            or tokens[index][1] == "Variable Identifier"):
         op1 = bool_exp(tokens)
-
         if tokens[index][1] == "Operand Separator Keyword":
             kw1 = tokens[index][0]
+            # print("Entered operator separator " + kw1)
+            
             index+=1
-
-            if tokens[index][1] == (tokens[index][1] == "AND Operator"
+            if (tokens[index][1] == "AND Operator"
                     or tokens[index][1] == "OR Operator"
                     or tokens[index][1] == "XOR Operator"
                     or tokens[index][1] == "Not Operator"
@@ -752,7 +751,7 @@ def xor(tokens):
             kw1 = tokens[index][0]
             index+=1
 
-            if tokens[index][1] in (tokens[index][1] == "AND Operator"
+            if (tokens[index][1] == "AND Operator"
                     or tokens[index][1] == "OR Operator"
                     or tokens[index][1] == "XOR Operator"
                     or tokens[index][1] == "Not Operator"
@@ -832,7 +831,7 @@ def comparison2(tokens):
     if tokens[index][1] == "Max Operator" or tokens[index][1] == "Minimum Operator":
         kw1 = tokens[index][0]
         print("Entered comparison " + tokens[index][0])
-        i+=1
+        index+=1
         op1 = comparison2(tokens)
         if tokens[index][1]== "Operand Separator Keyword":
             sep =  tokens[index][0]
@@ -910,7 +909,7 @@ def sumdiff(tokens):
         operator1 = sumdiff(tokens)
 
         if tokens[index][1] == "Operand Separator Keyword":
-            i += 1
+            index += 1
             operator2 = sumdiff(tokens)
 
             return 'SUM OF', (operator1, 'AN', operator2)
