@@ -24,45 +24,7 @@ def execute():
     result = re.findall(lineRgx, code)  # returns list containing lines
 
     for line in result:
-        temp = []
-        splitLine = line.split(" ")  # per line, split using spaces
-
-        # per word/token, check if it has newline or comma
-        # if true, split them
-        # else just append to tokenList and temp
-        for item in splitLine:
-            newlineChckr = False
-            commaChckr = False
-            newlineRgx = r".+\n"
-            commaRgx = r".+\,"
-            if (re.findall(newlineRgx, item)):
-                newlineChckr = True
-
-            if (re.findall(commaRgx, item)):
-                commaChckr = True
-
-            if (newlineChckr == True):
-                x = item.split("\n")
-                for str in x:
-                    if (str != ""):
-                        tokenList.append(str)
-                        tokenList.append("\n")
-                        temp.append(str)
-                        temp.append("\n")
-            elif (commaChckr == True):
-                x = item.split(",")
-                for str in x:
-                    if (str != ""):
-                        tokenList.append(str)
-                        tokenList.append(",")
-                        temp.append(str)
-                        temp.append(",")
-            else:
-                tokenList.append(item)
-                temp.append(item)
-
-        # analyze tokens per line
-        analyze_tokens(lexemeTups, temp)
+        analyze_tokens(lexemeTups, line)
 
     # after all analysis, we have lexeme tuples
     # insert them to Treeview
