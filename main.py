@@ -62,6 +62,8 @@ def evaluate(validSyntax):
             symbolTable["IT"] = eval_mod(x[1])
 
     print("SymbolTable (keys = variables; values = value of variable):", symbolTable)
+    for symb in symbolTable.items():
+        symbTbl.insert("", 'end', values=symb)
 
 
 def evaluate2(tuple):
@@ -168,8 +170,14 @@ def eval_mod(values):
 
 
 def clear_all():
+    global symbolTable
     for item in lexTbl.get_children():
         lexTbl.delete(item)
+
+    for item in symbTbl.get_children():
+        symbTbl.delete(item)
+
+    symbolTable = {}
 
 
 def execute():
