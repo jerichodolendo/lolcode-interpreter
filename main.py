@@ -11,10 +11,10 @@ from tkinter import filedialog as fd
 from tkinter.scrolledtext import ScrolledText
 # from tkinter.messagebox import showinfo
 
+symbolTable = {}
 
 def evaluate(validSyntax):
-    global gimmehInput
-    symbolTable = {}
+    global gimmehInput, symbolTable
 
     print(validSyntax)
     for x in validSyntax[1]:
@@ -36,18 +36,17 @@ def evaluate(validSyntax):
                 # print("Variable Uninitialized")
                 symbolTable[x[1]] = None
         elif (x[0] == 'GIMMEH'):
-            if (x[1] in symbolTable):
+            if (x[1] in symbolTable.keys()):
                 gimmeh_popup(x[1])
                 symbolTable[x[1]] = gimmehInput
             else:
                 print(f"Variable {x[1]} is not yet declared!")
         elif (x[0] == 'VISIBLE'):
-            if (x[1] in symbolTable):
+            if (x[1] in symbolTable.keys()):
                 print("VISIBLE <variable>:", symbolTable[x[1]])
             else:
                 print("VISIBLE:", x[1])
         elif (x[0] == 'SUM OF'):
-            ans = eval_add(x[1])
             print(ans)
         elif (x[0] == 'DIFF OF'):
             ans = eval_sub(x[1])
@@ -65,12 +64,16 @@ def evaluate(validSyntax):
     print("SymbolTable (keys = variables; values = value of variable):", symbolTable)
 
 def eval_add(values):
-    if(re.match(NUMBAR,values[0])):
+    if(values[0] in symbolTable.keys()):
+        op1 = symbolTable[values[0]]
+    elif(re.match(NUMBAR,values[0])):
         op1 = Decimal(values[0])
     elif(re.match(NUMBR,values[0])):
         op1 = int(values[0])
 
-    if(re.match(NUMBAR,values[2])):
+    if(values[2] in symbolTable.keys()):
+        op2 = symbolTable[values[2]]
+    elif(re.match(NUMBAR,values[2])):
         op2 = Decimal(values[2])
     elif(re.match(NUMBR,values[2])):
         op2 = int(values[2])
@@ -78,12 +81,16 @@ def eval_add(values):
     return op1 + op2
 
 def eval_sub(values):
-    if(re.match(NUMBAR,values[0])):
+    if(values[0] in symbolTable.keys()):
+        op1 = symbolTable[values[0]]
+    elif(re.match(NUMBAR,values[0])):
         op1 = Decimal(values[0])
     elif(re.match(NUMBR,values[0])):
         op1 = int(values[0])
 
-    if(re.match(NUMBAR,values[2])):
+    if(values[2] in symbolTable.keys()):
+        op2 = symbolTable[values[2]]
+    elif(re.match(NUMBAR,values[2])):
         op2 = Decimal(values[2])
     elif(re.match(NUMBR,values[2])):
         op2 = int(values[2])
@@ -91,12 +98,16 @@ def eval_sub(values):
     return op1 - op2
 
 def eval_mul(values):
-    if(re.match(NUMBAR,values[0])):
+    if(values[0] in symbolTable.keys()):
+        op1 = symbolTable[values[0]]
+    elif(re.match(NUMBAR,values[0])):
         op1 = Decimal(values[0])
     elif(re.match(NUMBR,values[0])):
         op1 = int(values[0])
 
-    if(re.match(NUMBAR,values[2])):
+    if(values[2] in symbolTable.keys()):
+        op2 = symbolTable[values[2]]
+    elif(re.match(NUMBAR,values[2])):
         op2 = Decimal(values[2])
     elif(re.match(NUMBR,values[2])):
         op2 = int(values[2])
@@ -104,12 +115,16 @@ def eval_mul(values):
     return op1 * op2
 
 def eval_div(values):
-    if(re.match(NUMBAR,values[0])):
+    if(values[0] in symbolTable.keys()):
+        op1 = symbolTable[values[0]]
+    elif(re.match(NUMBAR,values[0])):
         op1 = Decimal(values[0])
     elif(re.match(NUMBR,values[0])):
         op1 = int(values[0])
 
-    if(re.match(NUMBAR,values[2])):
+    if(values[2] in symbolTable.keys()):
+        op2 = symbolTable[values[2]]
+    elif(re.match(NUMBAR,values[2])):
         op2 = Decimal(values[2])
     elif(re.match(NUMBR,values[2])):
         op2 = int(values[2])
@@ -117,12 +132,16 @@ def eval_div(values):
     return op1 / op2
 
 def eval_mod(values):
-    if(re.match(NUMBAR,values[0])):
+    if(values[0] in symbolTable.keys()):
+        op1 = symbolTable[values[0]]
+    elif(re.match(NUMBAR,values[0])):
         op1 = Decimal(values[0])
     elif(re.match(NUMBR,values[0])):
         op1 = int(values[0])
 
-    if(re.match(NUMBAR,values[2])):
+    if(values[2] in symbolTable.keys()):
+        op2 = symbolTable[values[2]]
+    elif(re.match(NUMBAR,values[2])):
         op2 = Decimal(values[2])
     elif(re.match(NUMBR,values[2])):
         op2 = int(values[2])
