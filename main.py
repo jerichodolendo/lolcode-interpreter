@@ -62,6 +62,22 @@ def evaluate(validSyntax):
             symbolTable["IT"] = eval_div(x[1])
         elif(x[0] == 'MOD OF'):
             symbolTable["IT"] = eval_mod(x[1])
+        elif (x[0] == 'R'):
+            if (type(x[1]) == tuple):
+                if (x[1][0] in symbolTable.keys()):
+                    if (type(x[1][1]) == tuple):
+                        symbolTable[x[1][0]] = evaluate2(x[1][1])
+                    elif (type(x[1][1]) != str):
+                        symbolTable[x[1][0]] = x[1][1]
+                    else:
+                        if (re.match(NUMBAR, x[1][1])):
+                            symbolTable[x[1][0]] = float(x[1][1])
+                        elif (re.match(NUMBR, x[1][1])):
+                            symbolTable[x[1][0]] = int(x[1][1])
+                        elif (re.match(YARN, x[1][1])):
+                            symbolTable[x[1][0]] = str(x[1][1])
+                else:
+                    print(f"Variable {x[1][0]} is not yet declared!")
 
     print("SymbolTable (keys = variables; values = value of variable):", symbolTable)
     for symb in symbolTable.items():
