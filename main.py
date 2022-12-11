@@ -48,6 +48,8 @@ def evaluate(validSyntax):
         elif (x[0] == 'VISIBLE'):
             if (x[1] in symbolTable.keys()):
                 print("VISIBLE <variable>:", symbolTable[x[1]])
+            elif (type(x[1]) == tuple):
+                print("VISIBLE:", evaluate2(x[1]))
             else:
                 print("VISIBLE:", x[1])
         elif (x[0] == 'SUM OF'):
