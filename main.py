@@ -37,8 +37,15 @@ def evaluate(validSyntax):
                 symbolTable[x[1]] = None
         elif (x[0] == 'GIMMEH'):
             if (x[1] in symbolTable):
-                popupInput(x[1])
+                gimmeh_popup(x[1])
                 symbolTable[x[1]] = gimmehInput
+            else:
+                print(f"Variable {x[1]} is not yet declared!")
+        elif (x[0] == 'VISIBLE'):
+            if (x[1] in symbolTable):
+                print("VISIBLE <variable>:", symbolTable[x[1]])
+            else:
+                print("VISIBLE:", x[1])
 
     print("SymbolTable (keys = variables; values = value of variable):", symbolTable)
 
@@ -103,13 +110,13 @@ openFileBttn = Button(
 gimmehInput = ''
 
 
-def insert_val(top, e):
+def gimmehGet_Val(top, e):
     global gimmehInput
     gimmehInput = e.get()
     top.destroy()
 
 
-def popupInput(variableName):
+def gimmeh_popup(variableName):
     # Create a Toplevel window
     top = Toplevel(root)
     top.geometry("250x100")
@@ -123,7 +130,7 @@ def popupInput(variableName):
     entry.pack()
 
     # Create a Button to print something in the Entry widget
-    Button(top, text="Enter input", command=lambda: insert_val(top, entry)).pack(
+    Button(top, text="Enter input", command=lambda: gimmehGet_Val(top, entry)).pack(
         pady=5, side=TOP)
 
     root.wait_window(top)
