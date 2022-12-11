@@ -13,4 +13,3 @@
 - Run the program by typing in the command `python main.py`
 - The program will display a GUI and can edit/open .lol files.
 
-```
