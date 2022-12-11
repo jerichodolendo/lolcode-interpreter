@@ -34,7 +34,9 @@ def execute():
     for x in range(len(lexemeTups)):
         print(f"lexeme: {lexemeTups[x][0]}\tclass: {lexemeTups[x][1]}")
 
-    program(lexemeTups)
+    symbolTable = program(lexemeTups)
+
+    print(symbolTable)
 
 
 def openFile():

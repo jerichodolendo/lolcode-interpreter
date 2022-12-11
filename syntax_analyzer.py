@@ -123,7 +123,8 @@ def code_block(tokens, code_block_list):
     if len(code_block_list) > 1:
         return tuple(code_block_list)
     else:
-        return code_block_list[0]
+        print(code_block_list)
+        return code_block_list
 
 
 def code_block_2(tokens):
