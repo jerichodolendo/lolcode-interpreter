@@ -1,10 +1,10 @@
 # Python Regex from https://www.w3schools.com/python/python_regex.asp
+# GIMMEH popup window: https://www.tutorialspoint.com/creating-a-popup-message-box-with-an-entry-field-in-tkinter
 
 import re
 from regex import *
 from lexical_analyzer import *
 from syntax_analyzer import *
-from semantic_analyzer import *
 from tkinter import *
 from tkinter import ttk
 from tkinter import filedialog as fd
@@ -37,7 +37,7 @@ def evaluate(validSyntax):
                 symbolTable[x[1]] = None
         elif (x[0] == 'GIMMEH'):
             if (x[1] in symbolTable):
-                popupInput()
+                popupInput(x[1])
                 symbolTable[x[1]] = gimmehInput
 
     print("SymbolTable (keys = variables; values = value of variable):", symbolTable)
@@ -107,13 +107,16 @@ def insert_val(top, e):
     global gimmehInput
     gimmehInput = e.get()
     top.destroy()
-    print(gimmehInput)
 
 
-def popupInput():
+def popupInput(variableName):
     # Create a Toplevel window
     top = Toplevel(root)
-    top.geometry("750x250")
+    top.geometry("250x100")
+    top.title("GIMMEH Input")
+
+    label = Label(top, text=f"Input to be stored in {variableName}:")
+    label.pack()
 
     # Create an Entry Widget in the Toplevel window
     entry = Entry(top, width=25)
@@ -122,6 +125,8 @@ def popupInput():
     # Create a Button to print something in the Entry widget
     Button(top, text="Enter input", command=lambda: insert_val(top, entry)).pack(
         pady=5, side=TOP)
+
+    root.wait_window(top)
 
 
 openFileBttn.grid(column=0, row=0, sticky='w', padx=15, pady=10)
