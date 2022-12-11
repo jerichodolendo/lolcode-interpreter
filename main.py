@@ -270,7 +270,7 @@ def eval_both_saem(values):
     elif(re.match(NUMBR, values[2])):
         op2 = int(values[2])
 
-    return True if op1 == op2 else False
+    return 'WIN' if op1 == op2 else 'FAIL'
 
 def eval_diffrint(values):
     if(values[0] in symbolTable.keys()):
@@ -287,7 +287,7 @@ def eval_diffrint(values):
     elif(re.match(NUMBR, values[2])):
         op2 = int(values[2])
 
-    return True if op1 != op2 else False
+    return 'WIN' if op1 != op2 else 'FAIL'
 
 
 def clear_all():
