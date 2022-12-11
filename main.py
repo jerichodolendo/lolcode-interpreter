@@ -1,6 +1,7 @@
 # Python Regex from https://www.w3schools.com/python/python_regex.asp
 
 import re
+from regex import *
 from lexical_analyzer import *
 from syntax_analyzer import *
 from semantic_analyzer import *
@@ -9,6 +10,37 @@ from tkinter import ttk
 from tkinter import filedialog as fd
 from tkinter.scrolledtext import ScrolledText
 # from tkinter.messagebox import showinfo
+
+
+def evaluate(validSyntax):
+    global gimmehInput
+    symbolTable = {}
+
+    print(validSyntax)
+    for x in validSyntax[1]:
+        if (x[0] == 'I HAS A'):
+            # print("Variable Declaration")
+            if (type(x[1]) == tuple):
+                # print("Variable Initialization")
+                print(type(x[1][2]))
+                if (type(x[1][2]) != str):
+                    symbolTable[x[1][0]] = x[1][2]
+                else:
+                    if (re.match(NUMBAR, x[1][2])):
+                        symbolTable[x[1][0]] = float(x[1][2])
+                    elif (re.match(NUMBR, x[1][2])):
+                        symbolTable[x[1][0]] = int(x[1][2])
+                    elif (re.match(YARN, x[1][2])):
+                        symbolTable[x[1][0]] = str(x[1][2])
+            elif (type(x[1]) == str):
+                # print("Variable Uninitialized")
+                symbolTable[x[1]] = None
+        elif (x[0] == 'GIMMEH'):
+            if (x[1] in symbolTable):
+                popupInput()
+                symbolTable[x[1]] = gimmehInput
+
+    print("SymbolTable (keys = variables; values = value of variable):", symbolTable)
 
 
 def clear_all():
@@ -67,6 +99,30 @@ openFileBttn = Button(
     command=openFile,
     width=70
 )
+
+gimmehInput = ''
+
+
+def insert_val(top, e):
+    global gimmehInput
+    gimmehInput = e.get()
+    top.destroy()
+    print(gimmehInput)
+
+
+def popupInput():
+    # Create a Toplevel window
+    top = Toplevel(root)
+    top.geometry("750x250")
+
+    # Create an Entry Widget in the Toplevel window
+    entry = Entry(top, width=25)
+    entry.pack()
+
+    # Create a Button to print something in the Entry widget
+    Button(top, text="Enter input", command=lambda: insert_val(top, entry)).pack(
+        pady=5, side=TOP)
+
 
 openFileBttn.grid(column=0, row=0, sticky='w', padx=15, pady=10)
 
