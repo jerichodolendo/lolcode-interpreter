@@ -3,6 +3,7 @@
 import re
 from lexical_analyzer import *
 from syntax_analyzer import *
+from semantic_analyzer import *
 from tkinter import *
 from tkinter import ttk
 from tkinter import filedialog as fd
@@ -34,9 +35,9 @@ def execute():
     for x in range(len(lexemeTups)):
         print(f"lexeme: {lexemeTups[x][0]}\tclass: {lexemeTups[x][1]}")
 
-    symbolTable = program(lexemeTups)
+    validSyntax = program(lexemeTups)
 
-    print(symbolTable)
+    evaluate(validSyntax)
 
 
 def openFile():
