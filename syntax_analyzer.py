@@ -6,6 +6,8 @@ index = 0
 '''	PROGRAM:
     <program> ::= <comment> HAI <linebreak> <code_block> <linebreak> KTHXBYE <comment>
 '''
+
+
 def program(tokens):
     global index
     index = 0
@@ -38,8 +40,6 @@ def program(tokens):
         prompt_error()
 
 
-
-
 def comment(tokens):
     global index
     linebreak(tokens)
@@ -48,27 +48,32 @@ def comment(tokens):
 
     if index < tokens_length:
         if tokens[index][1] == "Single line comment":
-            print('{0:30}  {1}'.format("Single Line Comment Found ", tokens[index][0]))
+            print('{0:30}  {1}'.format(
+                "Single Line Comment Found ", tokens[index][0]))
             index += 1
 
             if tokens[index][1] == "Comment Literal":
-                print('{0:30}  {1}'.format("Comment Literal Found ", tokens[index][0]))
+                print('{0:30}  {1}'.format(
+                    "Comment Literal Found ", tokens[index][0]))
                 index += 1
                 linebreak(tokens)
 
         elif tokens[index][1] == "Multiple line comment starts":
-            print('{0:30}  {1}'.format("Multiple Line Comment Found ", tokens[index][0]))
+            print('{0:30}  {1}'.format(
+                "Multiple Line Comment Found ", tokens[index][0]))
             index += 1
             linebreak(tokens)
 
             if tokens[index][1] == "Part of Comment Block":
                 while index < tokens_length and tokens[index][1] == "Part of Comment Block":
-                    print('{0:30}  {1}'.format("Part of Comment Block Found ", tokens[index][0]))
+                    print('{0:30}  {1}'.format(
+                        "Part of Comment Block Found ", tokens[index][0]))
                     index += 1
                     linebreak(tokens)
 
                 if tokens[index][1] == "Multiple line comment ends":
-                    print('{0:30}  {1}'.format("Multiple Line Comment ends", tokens[index][0]))
+                    print('{0:30}  {1}'.format(
+                        "Multiple Line Comment ends", tokens[index][0]))
                     index += 1
                     linebreak(tokens)
 
@@ -169,27 +174,21 @@ def code_block_2(tokens):
         op = assignment(tokens)
         return op
 
-    elif (tokens[index][1] == "Variable Identifier"
-          or tokens[index][1] == "NUMBR"
-          or tokens[index][1] == "NUMBAR"
-          or tokens[index][1] == "YARN literal"
-          or tokens[index][1] == "TROOF"
-          or tokens[index][1] == "TYPE literal"
-          or ((tokens[index][1] == "AND Operator" and tokens[index-1][1] != "New Line")
-              or (tokens[index][1] == "OR Operator" and tokens[index-1][1] != "New Line")
-              or (tokens[index][1] == "XOR Operator" and tokens[index-1][1] != "New Line")
-              or (tokens[index][1] == "Not Operator" and tokens[index-1][1] != "New Line")
-              or (tokens[index][1] == "Infinite Arity OR Keyword" and tokens[index-1][1] != "New Line")
-              or (tokens[index][1] == "Infinite Arity AND Keyword" and tokens[index-1][1] != "New Line")
-              or (tokens[index][1] == "Addition Operator" and tokens[index-1][1] != "New Line")
-              or (tokens[index][1] == "Subtraction Operator" and tokens[index-1][1] != "New Line")
-              or (tokens[index][1] == "Multiplication Operator" and tokens[index-1][1] != "New Line")
-              or (tokens[index][1] == "Division Operator" and tokens[index-1][1] != "New Line")
-              or (tokens[index][1] == "Modulo Operator" and tokens[index-1][1] != "New Line")
-              or (tokens[index][1] == "Max Operator" and tokens[index-1][1] != "New Line")
-              or (tokens[index][1] == "Minimum Operator" and tokens[index-1][1] != "New Line")
-              or (tokens[index][1] == "Equal Operator" and tokens[index-1][1] != "New Line")
-              or (tokens[index][1] == "Not Equal Operator" and tokens[index-1][1] != "New Line"))):
+    elif (tokens[index][1] == "AND Operator"
+          or tokens[index][1] == "OR Operator"
+          or tokens[index][1] == "XOR Operator"
+          or tokens[index][1] == "Not Operator"
+          or tokens[index][1] == "Infinite Arity OR Keyword"
+          or tokens[index][1] == "Infinite Arity AND Keyword"
+          or tokens[index][1] == "Addition Operator"
+          or tokens[index][1] == "Subtraction Operator"
+          or tokens[index][1] == "Multiplication Operator"
+          or tokens[index][1] == "Division Operator"
+          or tokens[index][1] == "Modulo Operator"
+          or tokens[index][1] == "Max Operator"
+          or tokens[index][1] == "Minimum Operator"
+          or tokens[index][1] == "Equal Operator"
+          or tokens[index][1] == "Not Equal Operator"):
         operator1 = expr(tokens)
         return operator1
 
@@ -298,7 +297,8 @@ def assignment(tokens):
 
     if tokens[index][1] == "Variable Identifier":
         varident = tokens[index][0]
-        print('{0:30}  {1}'.format("Entered Variable Identifier", tokens[index][0]))
+        print('{0:30}  {1}'.format(
+            "Entered Variable Identifier", tokens[index][0]))
         index += 1
 
         if tokens[index][1] == "Assignment Operator Keyword":
@@ -306,21 +306,21 @@ def assignment(tokens):
             print("Entered Assignment Operator: " + tokens[index][0])
             index += 1
 
-            if ((tokens[index][1] == "AND Operator" and tokens[index-1][1] != "New Line")
-                or (tokens[index][1] == "OR Operator" and tokens[index-1][1] != "New Line")
-                or (tokens[index][1] == "XOR Operator" and tokens[index-1][1] != "New Line")
-                or (tokens[index][1] == "Not Operator" and tokens[index-1][1] != "New Line")
-                or (tokens[index][1] == "Infinite Arity OR Keyword" and tokens[index-1][1] != "New Line")
-                or (tokens[index][1] == "Infinite Arity AND Keyword" and tokens[index-1][1] != "New Line")
-                or (tokens[index][1] == "Addition Operator" and tokens[index-1][1] != "New Line")
-                or (tokens[index][1] == "Subtraction Operator" and tokens[index-1][1] != "New Line")
-                or (tokens[index][1] == "Multiplication Operator" and tokens[index-1][1] != "New Line")
-                or (tokens[index][1] == "Division Operator" and tokens[index-1][1] != "New Line")
-                or (tokens[index][1] == "Modulo Operator" and tokens[index-1][1] != "New Line")
-                or (tokens[index][1] == "Max Operator" and tokens[index-1][1] != "New Line")
-                or (tokens[index][1] == "Minimum Operator" and tokens[index-1][1] != "New Line")
-                or (tokens[index][1] == "Equal Operator" and tokens[index-1][1] != "New Line")
-                    or (tokens[index][1] == "Not Equal Operator" and tokens[index-1][1] != "New Line")):
+            if (tokens[index][1] == "AND Operator"
+                or tokens[index][1] == "OR Operator"
+                or tokens[index][1] == "XOR Operator"
+                or tokens[index][1] == "Not Operator"
+                or tokens[index][1] == "Infinite Arity OR Keyword"
+                or tokens[index][1] == "Infinite Arity AND Keyword"
+                or tokens[index][1] == "Addition Operator"
+                or tokens[index][1] == "Subtraction Operator"
+                or tokens[index][1] == "Multiplication Operator"
+                or tokens[index][1] == "Division Operator"
+                or tokens[index][1] == "Modulo Operator"
+                or tokens[index][1] == "Max Operator"
+                or tokens[index][1] == "Minimum Operator"
+                or tokens[index][1] == "Equal Operator"
+                    or tokens[index][1] == "Not Equal Operator"):
 
                 ex = expr(tokens)
 
@@ -328,7 +328,8 @@ def assignment(tokens):
 
             elif tokens[index][1] == "Variable Identifier":
                 varident2 = tokens[index][0]
-                print('{0:30}  {1}'.format("Entered Variable Identifier", tokens[index][0]))
+                print('{0:30}  {1}'.format(
+                    "Entered Variable Identifier", tokens[index][0]))
                 index += 1
 
                 return keyword_assign, (varident, varident2)
@@ -440,7 +441,8 @@ def code_block_3(tokens):
 def input_(tokens):
     global index
     if tokens[index][1] == "Variable Identifier":
-        print('{0:30}  {1}'.format("Entered Variable Identifier", tokens[index][0]))
+        print('{0:30}  {1}'.format(
+            "Entered Variable Identifier", tokens[index][0]))
         var = tokens[index][0]
     else:
         prompt_error()
@@ -461,7 +463,8 @@ def strconcat(tokens):
     op1 = func_str(tokens)
     if tokens[index][1] == "Operand Separator Keyword":
         # print("Entered operator separator " + tokens[index][0])
-        print('{0:30}  {1}'.format("Entered operator separator ", tokens[index][0]))
+        print('{0:30}  {1}'.format(
+            "Entered operator separator ", tokens[index][0]))
         kw1 = tokens[index][0]
         index += 1
         op2 = strconcat(tokens)
@@ -483,7 +486,8 @@ def func_str(tokens):
 
     elif tokens[index][1] == "Variable Identifier":
         # print("Entered variable identifier " + tokens[index][0])
-        print('{0:30}  {1}'.format("Entered variable identifier ", tokens[index][0]))
+        print('{0:30}  {1}'.format(
+            "Entered variable identifier ", tokens[index][0]))
         operator1 = tokens[index][0]
 
     else:
@@ -522,27 +526,21 @@ def declarations(tokens):
                 index += 1
                 return var1, kw1, var2
 
-            elif (tokens[index][1] == "Variable Identifier"
-                  or tokens[index][1] == "NUMBR"
-                  or tokens[index][1] == "NUMBAR"
-                  or tokens[index][1] == "YARN literal"
-                  or tokens[index][1] == "TROOF"
-                  or tokens[index][1] == "TYPE literal"
-                  or ((tokens[index][1] == "AND Operator" and tokens[index-1][1] != "New Line")
-                      or (tokens[index][1] == "OR Operator" and tokens[index-1][1] != "New Line")
-                      or (tokens[index][1] == "XOR Operator" and tokens[index-1][1] != "New Line")
-                      or (tokens[index][1] == "Not Operator" and tokens[index-1][1] != "New Line")
-                      or (tokens[index][1] == "Infinite Arity OR Keyword" and tokens[index-1][1] != "New Line")
-                      or (tokens[index][1] == "Infinite Arity AND Keyword" and tokens[index-1][1] != "New Line")
-                      or (tokens[index][1] == "Addition Operator" and tokens[index-1][1] != "New Line")
-                      or (tokens[index][1] == "Subtraction Operator" and tokens[index-1][1] != "New Line")
-                      or (tokens[index][1] == "Multiplication Operator" and tokens[index-1][1] != "New Line")
-                      or (tokens[index][1] == "Division Operator" and tokens[index-1][1] != "New Line")
-                      or (tokens[index][1] == "Modulo Operator" and tokens[index-1][1] != "New Line")
-                      or (tokens[index][1] == "Max Operator" and tokens[index-1][1] != "New Line")
-                      or (tokens[index][1] == "Minimum Operator" and tokens[index-1][1] != "New Line")
-                      or (tokens[index][1] == "Equal Operator" and tokens[index-1][1] != "New Line")
-                      or (tokens[index][1] == "Not Equal Operator" and tokens[index-1][1] != "New Line"))):
+            elif (tokens[index][1] == "AND Operator"
+                  or tokens[index][1] == "OR Operator"
+                  or tokens[index][1] == "XOR Operator"
+                  or tokens[index][1] == "Not Operator"
+                  or tokens[index][1] == "Infinite Arity OR Keyword"
+                  or tokens[index][1] == "Infinite Arity AND Keyword"
+                  or tokens[index][1] == "Addition Operator"
+                  or tokens[index][1] == "Subtraction Operator"
+                  or tokens[index][1] == "Multiplication Operator"
+                  or tokens[index][1] == "Division Operator"
+                  or tokens[index][1] == "Modulo Operator"
+                  or tokens[index][1] == "Max Operator"
+                  or tokens[index][1] == "Minimum Operator"
+                  or tokens[index][1] == "Equal Operator"
+                  or tokens[index][1] == "Not Equal Operator"):
                 var2 = expr(tokens)
                 return var1, kw1, var2
 
@@ -599,7 +597,8 @@ def inf_print(tokens):
     print('{0:30}  {1}'.format("Entered inf_prints ", tokens[index][0]))
 
     if (tokens[index][1] == "Variable Identifier"):
-        print('{0:30}  {1}'.format("Variable Identifier found ", tokens[index][0]))
+        print('{0:30}  {1}'.format(
+            "Variable Identifier found ", tokens[index][0]))
         var = tokens[index][0]
         index += 1
         return var
@@ -655,38 +654,39 @@ def expr(tokens):
         return keyword1, operator1
     elif tokens[index][1] == "OR Operator":
         kw1 = tokens[index][0]
-        index+=1
+        index += 1
         op1 = or_(tokens)
         return kw1, (op1)
 
     elif tokens[index][1] == "XOR Operator":
         kw1 = tokens[index][0]
-        index+=1
+        index += 1
         op1 = xor(tokens)
         return kw1, (op1)
 
     elif tokens[index][1] == "Not Operator":
         kw1 = tokens[index][0]
-        index+=1
+        index += 1
         op1 = not_(tokens)
         return kw1, (op1)
 
     elif tokens[index][1] == "Infinite Arity AND Keyword":
         kw1 = tokens[index][0]
-        index+=1
+        index += 1
         op1 = inf_and(tokens)
         return kw1, (op1)
 
     elif tokens[index][1] == "Infinite Arity OR Keyword":
         kw1 = tokens[index][0]
-        index+=1
+        index += 1
         op1 = inf_or(tokens)
         return kw1, (op1)
 
-    elif tokens[index][1] == "Equal Operator" or  tokens[index][1] == "Not Equal Operator":
+    elif tokens[index][1] == "Equal Operator" or tokens[index][1] == "Not Equal Operator":
         op = comparison(tokens)
         return op
-    index+=1
+    index += 1
+
 
 def not_(tokens):
     global index
@@ -696,7 +696,7 @@ def not_(tokens):
             or tokens[index][1] == "XOR Operator"
             or tokens[index][1] == "Not Operator"
             or tokens[index][1] == "TROOF"
-             or tokens[index][1] == "Variable Identifier"):
+            or tokens[index][1] == "Variable Identifier"):
         op1 = bool_exp(tokens)
         return op1
     else:
@@ -716,8 +716,8 @@ def or_(tokens):
         if tokens[index][1] == "Operand Separator Keyword":
             kw1 = tokens[index][0]
             # print("Entered operator separator " + kw1)
-            
-            index+=1
+
+            index += 1
             if (tokens[index][1] == "AND Operator"
                     or tokens[index][1] == "OR Operator"
                     or tokens[index][1] == "XOR Operator"
@@ -725,13 +725,14 @@ def or_(tokens):
                     or tokens[index][1] == "TROOF"
                     or tokens[index][1] == "Variable Identifier"):
                 op2 = bool_exp(tokens)
-                return op1, kw1, op2      
+                return op1, kw1, op2
             else:
                 prompt_error()
         else:
             prompt_error()
     else:
         prompt_error()
+
 
 def xor(tokens):
     global index
@@ -742,12 +743,12 @@ def xor(tokens):
             or tokens[index][1] == "XOR Operator"
             or tokens[index][1] == "Not Operator"
             or tokens[index][1] == "TROOF"
-             or tokens[index][1] == "Variable Identifier"):
+            or tokens[index][1] == "Variable Identifier"):
         op1 = bool_exp(tokens)
 
         if tokens[index][1] == "Operand Separator Keyword":
             kw1 = tokens[index][0]
-            index+=1
+            index += 1
 
             if (tokens[index][1] == "AND Operator"
                     or tokens[index][1] == "OR Operator"
@@ -756,7 +757,7 @@ def xor(tokens):
                     or tokens[index][1] == "TROOF"
                     or tokens[index][1] == "Variable Identifier"):
                 op2 = bool_exp(tokens)
-                return op1, kw1, op2      
+                return op1, kw1, op2
             else:
                 prompt_error()
         else:
@@ -764,20 +765,22 @@ def xor(tokens):
     else:
         prompt_error()
 
+
 def inf_and(tokens):
     global index
-    
-    if tokens[index][1] in (tokens[index][1] == "AND Operator"
-    or tokens[index][1] == "OR Operator"
-    or tokens[index][1] == "XOR Operator"
-    or tokens[index][1] == "Not Operator"
-    or tokens[index][1] == "TROOF"
-    or tokens[index][1] == "Variable Identifier"):
+
+    if (tokens[index][1] == "AND Operator"
+                            or tokens[index][1] == "OR Operator"
+                            or tokens[index][1] == "XOR Operator"
+                            or tokens[index][1] == "Not Operator"
+                            or tokens[index][1] == "TROOF"
+                            or tokens[index][1] == "Variable Identifier"):
         op1 = bool_exp(tokens)
         if tokens[index][1] == "Operator Separator Keyword":
             kw_sep = tokens[index][0]
-            print('{0:30}  {1}'.format("Entered operator separator ", tokens[index][0]))
-            index+=1
+            print('{0:30}  {1}'.format(
+                "Entered operator separator ", tokens[index][0]))
+            index += 1
             op2 = inf_and(tokens)
             return op1, kw_sep, op2
         else:
@@ -785,20 +788,22 @@ def inf_and(tokens):
     else:
         prompt_error()
 
+
 def inf_or(tokens):
     global index
-    
-    if tokens[index][1] in (tokens[index][1] == "AND Operator"
-    or tokens[index][1] == "OR Operator"
-    or tokens[index][1] == "XOR Operator"
-    or tokens[index][1] == "Not Operator"
-    or tokens[index][1] == "TROOF"
-    or tokens[index][1] == "Variable Identifier"):
+
+    if (tokens[index][1] == "AND Operator"
+                            or tokens[index][1] == "OR Operator"
+                            or tokens[index][1] == "XOR Operator"
+                            or tokens[index][1] == "Not Operator"
+                            or tokens[index][1] == "TROOF"
+                            or tokens[index][1] == "Variable Identifier"):
         op1 = bool_exp(tokens)
         if tokens[index][1] == "Operator Separator Keyword":
             kw_sep = tokens[index][0]
-            print('{0:30}  {1}'.format("Entered operator separator ", tokens[index][0]))
-            index+=1
+            print('{0:30}  {1}'.format(
+                "Entered operator separator ", tokens[index][0]))
+            index += 1
             op2 = inf_or(tokens)
             return op1, kw_sep, op2
         else:
@@ -806,22 +811,25 @@ def inf_or(tokens):
     else:
         prompt_error()
 
+
 def comparison(tokens):
     global index
 
-    if tokens[index][1] == "Equal Operator" or tokens[index][1] == " Not Equal Operator":
+    if tokens[index][1] == "Equal Operator" or tokens[index][1] == "Not Equal Operator":
         kw1 = tokens[index][0]
         print('{0:30}  {1}'.format("Entered comparison ", tokens[index][0]))
-        index+=1
+        index += 1
         op1 = comparison(tokens)
-        if tokens[index][1]== "Operand Separator Keyword":
+        if tokens[index][1] == "Operand Separator Keyword":
             sep = tokens[index][0]
-            print('{0:30}  {1}'.format("Entered operator separator ", tokens[index][0]))
-            index+=1
+            print('{0:30}  {1}'.format(
+                "Entered operator separator ", tokens[index][0]))
+            index += 1
             op2 = comparison(tokens)
             return kw1, (op1, sep, op2)
     else:
         return comparison2(tokens)
+
 
 def comparison2(tokens):
     global index
@@ -829,17 +837,19 @@ def comparison2(tokens):
     if tokens[index][1] == "Max Operator" or tokens[index][1] == "Minimum Operator":
         kw1 = tokens[index][0]
         print('{0:30}  {1}'.format("Entered comparison ", tokens[index][0]))
-        index+=1
+        index += 1
         op1 = comparison2(tokens)
-        if tokens[index][1]== "Operand Separator Keyword":
-            sep =  tokens[index][0]
-            print('{0:30}  {1}'.format("Entered operator separator ", tokens[index][0]))
-            index +=1
+        if tokens[index][1] == "Operand Separator Keyword":
+            sep = tokens[index][0]
+            print('{0:30}  {1}'.format(
+                "Entered operator separator ", tokens[index][0]))
+            index += 1
             op2 = comparison2(tokens)
             return kw1, (op1, sep, op2)
 
     else:
         return comp_op(tokens)
+
 
 def comp_op(tokens):
     global index
@@ -847,19 +857,22 @@ def comp_op(tokens):
     ret = None
     if tokens[index][1] == "Variable Identifier":
         ret = tokens[index][0]
-        print('{0:30}  {1}'.format("Entered Variable Identifier ", tokens[index][0]))
-        index+=1
-    elif tokens[index][1] == "NUMBR":	## Numbr
+        print('{0:30}  {1}'.format(
+            "Entered Variable Identifier ", tokens[index][0]))
+        index += 1
+    elif tokens[index][1] == "NUMBR":  # Numbr
         ret = tokens[index][0]
         print('{0:30}  {1}'.format("Entered numbr literal ", tokens[index][0]))
-        index+=1
-    elif tokens[index][1] == "NUMBAR": ## numbar.
+        index += 1
+    elif tokens[index][1] == "NUMBAR":  # numbar.
         ret = tokens[index][0]
-        print('{0:30}  {1}'.format("Entered numbar literal ", tokens[index][0]))
-        index+=1
+        print('{0:30}  {1}'.format(
+            "Entered numbar literal ", tokens[index][0]))
+        index += 1
     else:
         prompt_error()
     return ret
+
 
 def value(tokens):
     global index
@@ -886,9 +899,11 @@ def literal(tokens):
     elif tokens[index][1] == "NUMBAR":
         print('{0:30}  {1}'.format("Entered float literal ", tokens[index][0]))
     elif tokens[index][1] == "YARN literal":
-        print('{0:30}  {1}'.format("Entered string literal ", tokens[index][0]))
+        print('{0:30}  {1}'.format(
+            "Entered string literal ", tokens[index][0]))
     elif tokens[index][1] == "TROOF":
-        print('{0:30}  {1}'.format("Entered boolean literal ", tokens[index][0]))
+        print('{0:30}  {1}'.format(
+            "Entered boolean literal ", tokens[index][0]))
     elif tokens[index][1] == "TYPE literal":
         print('{0:30}  {1}'.format("Entered type literal ", tokens[index][0]))
     else:
@@ -972,7 +987,7 @@ def multdiv(tokens):
         op1 = sumdiff(tokens)
 
         if tokens[index][1] == "Operand Separator Keyword":
-            index+=1
+            index += 1
             op2 = sumdiff(tokens)
 
             return 'QUOSHUNT OF', (op1, 'AN', op2)
@@ -984,16 +999,16 @@ def multdiv(tokens):
         op1 = sumdiff(tokens)
 
         if tokens[index][1] == "Operand Separator Keyword":
-            index+=1
+            index += 1
             op2 = sumdiff(tokens)
 
             return 'MOD OF', (op1, 'AN', op2)
         else:
             prompt_error()
-        
+
     else:
         op = value(tokens)
-        index+=1
+        index += 1
         return op
 
 
@@ -1015,4 +1030,4 @@ def bool_exp(tokens):
 
 def prompt_error():
     print("Error!")
-    # quit()
+    quit()
