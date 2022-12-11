@@ -10,8 +10,8 @@ def analyze_tokens(lexemeTups, line):
     j = 0
 
     while (re.match("^( *)$", x) == None):
-        if (re.match("^ *", x)):
-            x = re.sub("^ *", "", x, 1)
+        if (re.match("^[ \t]*", x)):
+            x = re.sub("^[ \t]*", "", x, 1)
 
         # comments
         if (BTW_flag == 1):

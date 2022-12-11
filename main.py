@@ -13,9 +13,11 @@ from tkinter.scrolledtext import ScrolledText
 
 symbolTable = {}
 
+
 def evaluate(validSyntax):
     global gimmehInput, symbolTable
 
+    symbolTable["IT"] = "NOOB"
     print(validSyntax)
     for x in validSyntax[1]:
         if (x[0] == 'I HAS A'):
@@ -23,7 +25,9 @@ def evaluate(validSyntax):
             if (type(x[1]) == tuple):
                 # print("Variable Initialization")
                 print(type(x[1][2]))
-                if (type(x[1][2]) != str):
+                if (type(x[1][2]) == tuple):
+                    symbolTable[x[1][0]] = evaluate2(x[1][2])
+                elif (type(x[1][2]) != str):
                     symbolTable[x[1][0]] = x[1][2]
                 else:
                     if (re.match(NUMBAR, x[1][2])):
@@ -34,7 +38,7 @@ def evaluate(validSyntax):
                         symbolTable[x[1][0]] = str(x[1][2])
             elif (type(x[1]) == str):
                 # print("Variable Uninitialized")
-                symbolTable[x[1]] = None
+                symbolTable[x[1]] = "NOOB"
         elif (x[0] == 'GIMMEH'):
             if (x[1] in symbolTable.keys()):
                 gimmeh_popup(x[1])
@@ -47,106 +51,121 @@ def evaluate(validSyntax):
             else:
                 print("VISIBLE:", x[1])
         elif (x[0] == 'SUM OF'):
-            print(ans)
+            symbolTable["IT"] = eval_add(x[1])
         elif (x[0] == 'DIFF OF'):
-            ans = eval_sub(x[1])
-            print(ans)
+            symbolTable["IT"] = eval_sub(x[1])
         elif(x[0] == 'PRODUKT OF'):
-            ans = eval_mul(x[1])
-            print(ans)
+            symbolTable["IT"] = eval_mul(x[1])
         elif(x[0] == 'QUOSHUNT OF'):
-            ans = eval_div(x[1])
-            print(ans)
+            symbolTable["IT"] = eval_div(x[1])
         elif(x[0] == 'MOD OF'):
-            ans = eval_mod(x[1])
-            print(ans)
+            symbolTable["IT"] = eval_mod(x[1])
 
     print("SymbolTable (keys = variables; values = value of variable):", symbolTable)
+
+
+def evaluate2(tuple):
+    if (tuple[0] == 'SUM OF'):
+        return eval_add(tuple[1])
+    elif (tuple[0] == 'DIFF OF'):
+        return eval_sub(tuple[1])
+    elif(tuple[0] == 'PRODUKT OF'):
+        return eval_mul(tuple[1])
+    elif(tuple[0] == 'QUOSHUNT OF'):
+        return eval_div(tuple[1])
+    elif(tuple[0] == 'MOD OF'):
+        return eval_mod(tuple[1])
+
 
 def eval_add(values):
     if(values[0] in symbolTable.keys()):
         op1 = symbolTable[values[0]]
-    elif(re.match(NUMBAR,values[0])):
+    elif(re.match(NUMBAR, values[0])):
         op1 = Decimal(values[0])
-    elif(re.match(NUMBR,values[0])):
+    elif(re.match(NUMBR, values[0])):
         op1 = int(values[0])
 
     if(values[2] in symbolTable.keys()):
         op2 = symbolTable[values[2]]
-    elif(re.match(NUMBAR,values[2])):
+    elif(re.match(NUMBAR, values[2])):
         op2 = Decimal(values[2])
-    elif(re.match(NUMBR,values[2])):
+    elif(re.match(NUMBR, values[2])):
         op2 = int(values[2])
 
     return op1 + op2
 
+
 def eval_sub(values):
     if(values[0] in symbolTable.keys()):
         op1 = symbolTable[values[0]]
-    elif(re.match(NUMBAR,values[0])):
+    elif(re.match(NUMBAR, values[0])):
         op1 = Decimal(values[0])
-    elif(re.match(NUMBR,values[0])):
+    elif(re.match(NUMBR, values[0])):
         op1 = int(values[0])
 
     if(values[2] in symbolTable.keys()):
         op2 = symbolTable[values[2]]
-    elif(re.match(NUMBAR,values[2])):
+    elif(re.match(NUMBAR, values[2])):
         op2 = Decimal(values[2])
-    elif(re.match(NUMBR,values[2])):
+    elif(re.match(NUMBR, values[2])):
         op2 = int(values[2])
 
     return op1 - op2
 
+
 def eval_mul(values):
     if(values[0] in symbolTable.keys()):
         op1 = symbolTable[values[0]]
-    elif(re.match(NUMBAR,values[0])):
+    elif(re.match(NUMBAR, values[0])):
         op1 = Decimal(values[0])
-    elif(re.match(NUMBR,values[0])):
+    elif(re.match(NUMBR, values[0])):
         op1 = int(values[0])
 
     if(values[2] in symbolTable.keys()):
         op2 = symbolTable[values[2]]
-    elif(re.match(NUMBAR,values[2])):
+    elif(re.match(NUMBAR, values[2])):
         op2 = Decimal(values[2])
-    elif(re.match(NUMBR,values[2])):
+    elif(re.match(NUMBR, values[2])):
         op2 = int(values[2])
 
     return op1 * op2
 
+
 def eval_div(values):
     if(values[0] in symbolTable.keys()):
         op1 = symbolTable[values[0]]
-    elif(re.match(NUMBAR,values[0])):
+    elif(re.match(NUMBAR, values[0])):
         op1 = Decimal(values[0])
-    elif(re.match(NUMBR,values[0])):
+    elif(re.match(NUMBR, values[0])):
         op1 = int(values[0])
 
     if(values[2] in symbolTable.keys()):
         op2 = symbolTable[values[2]]
-    elif(re.match(NUMBAR,values[2])):
+    elif(re.match(NUMBAR, values[2])):
         op2 = Decimal(values[2])
-    elif(re.match(NUMBR,values[2])):
+    elif(re.match(NUMBR, values[2])):
         op2 = int(values[2])
 
     return op1 / op2
 
+
 def eval_mod(values):
     if(values[0] in symbolTable.keys()):
         op1 = symbolTable[values[0]]
-    elif(re.match(NUMBAR,values[0])):
+    elif(re.match(NUMBAR, values[0])):
         op1 = Decimal(values[0])
-    elif(re.match(NUMBR,values[0])):
+    elif(re.match(NUMBR, values[0])):
         op1 = int(values[0])
 
     if(values[2] in symbolTable.keys()):
         op2 = symbolTable[values[2]]
-    elif(re.match(NUMBAR,values[2])):
+    elif(re.match(NUMBAR, values[2])):
         op2 = Decimal(values[2])
-    elif(re.match(NUMBR,values[2])):
+    elif(re.match(NUMBR, values[2])):
         op2 = int(values[2])
 
     return op1 % op2
+
 
 def clear_all():
     for item in lexTbl.get_children():
