@@ -13,7 +13,6 @@ from tkinter.scrolledtext import ScrolledText
 
 symbolTable = {}
 
-
 def evaluate(validSyntax):
     global gimmehInput, symbolTable
 

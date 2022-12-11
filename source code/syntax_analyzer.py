@@ -773,7 +773,7 @@ def comparison2(tokens):
             return kw1, (op1, sep, op2)
 
     else:
-        return comp_op(tokens)
+        return sumdiff(tokens)
 
 
 def comp_op(tokens):
