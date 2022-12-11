@@ -83,6 +83,12 @@ def evaluate(validSyntax):
         elif(x[0] == 'SMALLR OF'):
             symbolTable["IT"] = eval_smallr(x[1])
             console.insert(END, "SUCCESS\n")
+        elif(x[0] == 'BOTH SAEM'):
+            symbolTable["IT"] = eval_both_saem(x[1])
+            console.insert(END, "SUCCESS\n")
+        elif(x[0] == 'DIFFRINT'):
+            symbolTable["IT"] = eval_diffrint(x[1])
+            console.insert(END, "SUCCESS\n")
         elif (x[0] == 'R'):
             if (type(x[1]) == tuple):
                 if (x[1][0] in symbolTable.keys()):
@@ -248,6 +254,40 @@ def eval_smallr(values):
         op2 = int(values[2])
 
     return min([op1, op2])
+
+def eval_both_saem(values):
+    if(values[0] in symbolTable.keys()):
+        op1 = symbolTable[values[0]]
+    elif(re.match(NUMBAR, values[0])):
+        op1 = Decimal(values[0])
+    elif(re.match(NUMBR, values[0])):
+        op1 = int(values[0])
+
+    if(values[2] in symbolTable.keys()):
+        op2 = symbolTable[values[2]]
+    elif(re.match(NUMBAR, values[2])):
+        op2 = Decimal(values[2])
+    elif(re.match(NUMBR, values[2])):
+        op2 = int(values[2])
+
+    return True if op1 == op2 else False
+
+def eval_diffrint(values):
+    if(values[0] in symbolTable.keys()):
+        op1 = symbolTable[values[0]]
+    elif(re.match(NUMBAR, values[0])):
+        op1 = Decimal(values[0])
+    elif(re.match(NUMBR, values[0])):
+        op1 = int(values[0])
+
+    if(values[2] in symbolTable.keys()):
+        op2 = symbolTable[values[2]]
+    elif(re.match(NUMBAR, values[2])):
+        op2 = Decimal(values[2])
+    elif(re.match(NUMBR, values[2])):
+        op2 = int(values[2])
+
+    return True if op1 != op2 else False
 
 
 def clear_all():
