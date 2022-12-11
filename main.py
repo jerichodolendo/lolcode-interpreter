@@ -36,36 +36,53 @@ def evaluate(validSyntax):
                         symbolTable[x[1][0]] = int(x[1][2])
                     elif (re.match(YARN, x[1][2])):
                         symbolTable[x[1][0]] = str(x[1][2])
+
+                console.insert(END, "SUCCESS\n")
             elif (type(x[1]) == str):
                 # print("Variable Uninitialized")
                 symbolTable[x[1]] = "NOOB"
+                console.insert(END, "SUCCESS\n")
+            else:
+                console.insert(END, "FAIL\n")
         elif (x[0] == 'GIMMEH'):
             if (x[1] in symbolTable.keys()):
                 gimmeh_popup(x[1])
                 symbolTable[x[1]] = gimmehInput
+                console.insert(END, "SUCCESS\n")
             else:
                 print(f"Variable {x[1]} is not yet declared!")
+                console.insert(END, "FAIL\n")
         elif (x[0] == 'VISIBLE'):
             if (x[1] in symbolTable.keys()):
                 print("VISIBLE <variable>:", symbolTable[x[1]])
+                console.insert(END, f"{symbolTable[x[1]]}\n")
             elif (type(x[1]) == tuple):
                 print("VISIBLE:", evaluate2(x[1]))
+                console.insert(END, evaluate2(x[1]) + "\n")
             else:
                 print("VISIBLE:", x[1])
+                console.insert(END, f"{x[1]}\n")
         elif (x[0] == 'SUM OF'):
             symbolTable["IT"] = eval_add(x[1])
+            console.insert(END, "SUCCESS\n")
         elif (x[0] == 'DIFF OF'):
             symbolTable["IT"] = eval_sub(x[1])
+            console.insert(END, "SUCCESS\n")
         elif(x[0] == 'PRODUKT OF'):
             symbolTable["IT"] = eval_mul(x[1])
+            console.insert(END, "SUCCESS\n")
         elif(x[0] == 'QUOSHUNT OF'):
             symbolTable["IT"] = eval_div(x[1])
+            console.insert(END, "SUCCESS\n")
         elif(x[0] == 'MOD OF'):
             symbolTable["IT"] = eval_mod(x[1])
+            console.insert(END, "SUCCESS\n")
         elif(x[0] == 'BIGGR OF'):
             symbolTable["IT"] = eval_biggr(x[1])
+            console.insert(END, "SUCCESS\n")
         elif(x[0] == 'SMALLR OF'):
             symbolTable["IT"] = eval_smallr(x[1])
+            console.insert(END, "SUCCESS\n")
         elif (x[0] == 'R'):
             if (type(x[1]) == tuple):
                 if (x[1][0] in symbolTable.keys()):
@@ -80,8 +97,10 @@ def evaluate(validSyntax):
                             symbolTable[x[1][0]] = int(x[1][1])
                         elif (re.match(YARN, x[1][1])):
                             symbolTable[x[1][0]] = str(x[1][1])
+                    console.insert(END, "SUCCESS\n")
                 else:
                     print(f"Variable {x[1][0]} is not yet declared!")
+                    console.insert(END, "FAIL\n")
 
     print("SymbolTable (keys = variables; values = value of variable):", symbolTable)
     for symb in symbolTable.items():
@@ -194,6 +213,7 @@ def eval_mod(values):
 
     return op1 % op2
 
+
 def eval_biggr(values):
     if(values[0] in symbolTable.keys()):
         op1 = symbolTable[values[0]]
@@ -210,6 +230,7 @@ def eval_biggr(values):
         op2 = int(values[2])
 
     return max([op1, op2])
+
 
 def eval_smallr(values):
     if(values[0] in symbolTable.keys()):
@@ -238,6 +259,7 @@ def clear_all():
         symbTbl.delete(item)
 
     symbolTable = {}
+    console.delete("1.0", END)
 
 
 def execute():
