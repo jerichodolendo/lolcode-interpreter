@@ -62,6 +62,10 @@ def evaluate(validSyntax):
             symbolTable["IT"] = eval_div(x[1])
         elif(x[0] == 'MOD OF'):
             symbolTable["IT"] = eval_mod(x[1])
+        elif(x[0] == 'BIGGR OF'):
+            symbolTable["IT"] = eval_biggr(x[1])
+        elif(x[0] == 'SMALLR OF'):
+            symbolTable["IT"] = eval_smallr(x[1])
         elif (x[0] == 'R'):
             if (type(x[1]) == tuple):
                 if (x[1][0] in symbolTable.keys()):
@@ -95,6 +99,10 @@ def evaluate2(tuple):
         return eval_div(tuple[1])
     elif(tuple[0] == 'MOD OF'):
         return eval_mod(tuple[1])
+    elif(tuple[0] == 'BIGGR OF'):
+        return eval_biggr(tuple[1])
+    elif(tuple[0] == 'SMALLR OF'):
+        return eval_smallr(tuple[1])
 
 
 def eval_add(values):
@@ -185,6 +193,40 @@ def eval_mod(values):
         op2 = int(values[2])
 
     return op1 % op2
+
+def eval_biggr(values):
+    if(values[0] in symbolTable.keys()):
+        op1 = symbolTable[values[0]]
+    elif(re.match(NUMBAR, values[0])):
+        op1 = Decimal(values[0])
+    elif(re.match(NUMBR, values[0])):
+        op1 = int(values[0])
+
+    if(values[2] in symbolTable.keys()):
+        op2 = symbolTable[values[2]]
+    elif(re.match(NUMBAR, values[2])):
+        op2 = Decimal(values[2])
+    elif(re.match(NUMBR, values[2])):
+        op2 = int(values[2])
+
+    return max([op1, op2])
+
+def eval_smallr(values):
+    if(values[0] in symbolTable.keys()):
+        op1 = symbolTable[values[0]]
+    elif(re.match(NUMBAR, values[0])):
+        op1 = Decimal(values[0])
+    elif(re.match(NUMBR, values[0])):
+        op1 = int(values[0])
+
+    if(values[2] in symbolTable.keys()):
+        op2 = symbolTable[values[2]]
+    elif(re.match(NUMBAR, values[2])):
+        op2 = Decimal(values[2])
+    elif(re.match(NUMBR, values[2])):
+        op2 = int(values[2])
+
+    return min([op1, op2])
 
 
 def clear_all():

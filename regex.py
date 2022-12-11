@@ -31,8 +31,8 @@ multiply = "(PRODUKT OF)"
 divide = "(QUOSHUNT OF)"
 modulo = "(MOD OF)"
 
-max = "(BIGGR OF)"
-minimum = "(SMALLR OF)"
+greater_than = "(BIGGR OF)"
+less_than = "(SMALLR OF)"
 equal = "(BOTH SAEM)"
 not_equal = "(DIFFRINT)"
 

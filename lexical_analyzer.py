@@ -130,13 +130,13 @@ def analyze_tokens(lexemeTups, line):
             print("MOD OF\t == Modulo Operator")
             lexemeTups.append(("MOD OF", "Modulo Operator"))
 
-        elif (re.match(max, x)):
-            x = re.sub(max, "", x, 1)
+        elif (re.match(greater_than, x)):
+            x = re.sub(greater_than, "", x, 1)
             print("BIGGR OF\t == Max Operator")
             lexemeTups.append(("BIGGR OF", "Max Operator"))
 
-        elif (re.match(minimum, x)):
-            x = re.sub(minimum, "", x, 1)
+        elif (re.match(less_than, x)):
+            x = re.sub(less_than, "", x, 1)
             print("SMALLR OF\t == Minimum Operator")
             lexemeTups.append(("SMALLR OF", "Minimum Operator"))
 
