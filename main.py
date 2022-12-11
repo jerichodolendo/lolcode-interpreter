@@ -1,8 +1,8 @@
 # Python Regex from https://www.w3schools.com/python/python_regex.asp
 # GIMMEH popup window: https://www.tutorialspoint.com/creating-a-popup-message-box-with-an-entry-field-in-tkinter
-
 import re
 from regex import *
+from decimal import *
 from lexical_analyzer import *
 from syntax_analyzer import *
 from tkinter import *
@@ -46,9 +46,88 @@ def evaluate(validSyntax):
                 print("VISIBLE <variable>:", symbolTable[x[1]])
             else:
                 print("VISIBLE:", x[1])
+        elif (x[0] == 'SUM OF'):
+            ans = eval_add(x[1])
+            print(ans)
+        elif (x[0] == 'DIFF OF'):
+            ans = eval_sub(x[1])
+            print(ans)
+        elif(x[0] == 'PRODUKT OF'):
+            ans = eval_mul(x[1])
+            print(ans)
+        elif(x[0] == 'QUOSHUNT OF'):
+            ans = eval_div(x[1])
+            print(ans)
+        elif(x[0] == 'MOD OF'):
+            ans = eval_mod(x[1])
+            print(ans)
 
     print("SymbolTable (keys = variables; values = value of variable):", symbolTable)
 
+def eval_add(values):
+    if(re.match(NUMBAR,values[0])):
+        op1 = Decimal(values[0])
+    elif(re.match(NUMBR,values[0])):
+        op1 = int(values[0])
+
+    if(re.match(NUMBAR,values[2])):
+        op2 = Decimal(values[2])
+    elif(re.match(NUMBR,values[2])):
+        op2 = int(values[2])
+
+    return op1 + op2
+
+def eval_sub(values):
+    if(re.match(NUMBAR,values[0])):
+        op1 = Decimal(values[0])
+    elif(re.match(NUMBR,values[0])):
+        op1 = int(values[0])
+
+    if(re.match(NUMBAR,values[2])):
+        op2 = Decimal(values[2])
+    elif(re.match(NUMBR,values[2])):
+        op2 = int(values[2])
+
+    return op1 - op2
+
+def eval_mul(values):
+    if(re.match(NUMBAR,values[0])):
+        op1 = Decimal(values[0])
+    elif(re.match(NUMBR,values[0])):
+        op1 = int(values[0])
+
+    if(re.match(NUMBAR,values[2])):
+        op2 = Decimal(values[2])
+    elif(re.match(NUMBR,values[2])):
+        op2 = int(values[2])
+
+    return op1 * op2
+
+def eval_div(values):
+    if(re.match(NUMBAR,values[0])):
+        op1 = Decimal(values[0])
+    elif(re.match(NUMBR,values[0])):
+        op1 = int(values[0])
+
+    if(re.match(NUMBAR,values[2])):
+        op2 = Decimal(values[2])
+    elif(re.match(NUMBR,values[2])):
+        op2 = int(values[2])
+
+    return op1 / op2
+
+def eval_mod(values):
+    if(re.match(NUMBAR,values[0])):
+        op1 = Decimal(values[0])
+    elif(re.match(NUMBR,values[0])):
+        op1 = int(values[0])
+
+    if(re.match(NUMBAR,values[2])):
+        op2 = Decimal(values[2])
+    elif(re.match(NUMBR,values[2])):
+        op2 = int(values[2])
+
+    return op1 % op2
 
 def clear_all():
     for item in lexTbl.get_children():
