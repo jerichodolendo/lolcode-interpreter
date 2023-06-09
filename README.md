@@ -9,5 +9,5 @@
 ## Usage
 1. The current working directory must contain all python files needed.
 2. Run the program by typing in the command `python main.py`
-3.The program will display a GUI and can edit/open .lol files.
+3. The program will display a GUI and can edit/open .lol files.
 
